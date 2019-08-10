@@ -100,9 +100,9 @@
 		4A516B3522FF2BBC00F09F3F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				4A516B3022FE665B00F09F3F /* Sharing.swift */,
 				4A4D3BFC22FE429B00E7DC64 /* ObservationSessionView.swift */,
 				4A516B3D22FF2C7200F09F3F /* ObservedItemCard.swift */,
+				4A516B3022FE665B00F09F3F /* Sharing.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

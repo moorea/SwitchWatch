@@ -52,8 +52,8 @@ struct ObservationSessionView: View {
     var completeActions: some View {
         VStack {
             Button(action: {
-                self.session.export()
-                self.activityViewController.shareFiles(fileURLs: [self.session.exportedRawDataFilePath, self.session.exportedStatsFilePath])
+                
+                self.activityViewController.shareFiles(fileURLs: self.session.export())
             }) {
                 ZStack {
                     Text("Share")

@@ -18,8 +18,8 @@ enum SessionState {
 class ObservationSession: ObservableObject {
     let objectWillChange = ObservableObjectPublisher()
     var groupName: String
-    var items: [ObservedItem] = []
-    var state: SessionState = .notBegun
+    private(set) var items: [ObservedItem] = []
+    private(set) var state: SessionState = .notBegun
     
     init(groupName: String) {
         self.groupName = groupName
@@ -49,10 +49,7 @@ class ObservationSession: ObservableObject {
         objectWillChange.send()
     }
     
-    var exportedRawDataFilePath: URL?
-    var exportedStatsFilePath: URL?
-
-    func export() {
+    func export() -> [URL?]? {
         let rawDataFileName = "\(groupName)_raw_transition_times.csv"
         let statsFileName = "\(groupName)_stats.csv"
         
@@ -72,12 +69,11 @@ class ObservationSession: ObservableObject {
         do {
             try rawDataCSVText.write(to: rawDataFilePath!, atomically: true, encoding: String.Encoding.utf8)
             try statsCSV.write(to: statsFilePath!, atomically: true, encoding: String.Encoding.utf8)
-            exportedRawDataFilePath = rawDataFilePath
-            exportedStatsFilePath = statsFilePath
+            return [rawDataFilePath, statsFilePath]
         } catch {
-            
             print("Failed to create file")
             print("\(error)")
+            return nil
         }
     }
 }

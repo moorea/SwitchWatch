@@ -32,7 +32,6 @@ struct ObservedItemCard: View {
             .padding(8)
         }
         .background(Color.tileBackground)
-//        .cornerRadius(5) //TODO: Why does this block tapping the text field?
     }
 }
 
