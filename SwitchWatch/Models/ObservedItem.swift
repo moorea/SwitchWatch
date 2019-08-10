@@ -19,16 +19,15 @@ class ObservedItem: ObservableObject, Identifiable {
     var id = UUID()
     var name: String
     
-    private(set) var timer: Timer?
-    private(set) var timerStartTime: TimeInterval = 0
-    private let tick: TimeInterval = 0.5
-    
-    var timerElapsedTime: TimeInterval = 0
-    var areaOneElapsedTime: TimeInterval = 0
-    var areaTwoElapsedTime: TimeInterval = 0
-    
     private var transitions: [String] = []
     
+    private let tickInterval: TimeInterval = 0.5
+    private var timer: Timer?
+    private var timerStartTime: TimeInterval = 0
+    private var timerElapsedTime: TimeInterval = 0
+    private var areaOneElapsedTime: TimeInterval = 0
+    private var areaTwoElapsedTime: TimeInterval = 0
+
     private var numberFormatter: NumberFormatter = {
         let f = NumberFormatter()
         f.numberStyle = .decimal
@@ -56,6 +55,58 @@ class ObservedItem: ObservableObject, Identifiable {
             }
         }
     }
+    
+    init(name: String) {
+        self.name = name
+    }
+    
+    //MARK: - Timer Control
+    
+    func start() {
+        recordInitialPositions()
+        timer = Timer.scheduledTimer(timeInterval: tickInterval, target: self,
+                                     selector: #selector(timerHasTicked(timer:)),
+                                     userInfo: nil, repeats: true)
+        RunLoop.current.add(timer!, forMode: RunLoop.Mode.common)
+        timerStartTime = Date.timeIntervalSinceReferenceDate
+    }
+    
+    func stop() {
+        recordFinalPositions()
+        timer?.invalidate()
+    }
+    
+    @objc private func timerHasTicked(timer: Timer) {
+        
+        let currentTime = Date.timeIntervalSinceReferenceDate
+        timerElapsedTime = (currentTime - timerStartTime)
+        objectWillChange.send()
+        
+        switch currentArea {
+        case .areaOne:
+            areaOneElapsedTime += tickInterval
+            break
+        case .areaTwo:
+            areaTwoElapsedTime += tickInterval
+            break
+        }
+    }
+    
+    //MARK: - Data Export
+    
+    func constructAllTransitionsCSV() -> String {
+        var csv = ""
+        transitions.forEach { transition in
+            csv += transition
+        }
+        return csv
+    }
+    
+    func constructOverallStatsCSV() -> String {
+        return "\(name),\(formattedTimeOne),\(formattedTimeTwo),\(transitions.count - 2)\n"
+    }
+    
+    //MARK: - Transition Recording
     
     private func recordTransition() {
         switch currentArea {
@@ -94,51 +145,5 @@ class ObservedItem: ObservableObject, Identifiable {
             print("Item \(id) ending in dark @ \(formattedElapsedTime)")
             break
         }
-    }
-    
-    func start() {
-        recordInitialPositions()
-        timer = Timer.scheduledTimer(timeInterval: tick, target: self,
-                                     selector: #selector(timerHasTicked(timer:)),
-                                     userInfo: nil, repeats: true)
-        RunLoop.current.add(timer!, forMode: RunLoop.Mode.common)
-        timerStartTime = Date.timeIntervalSinceReferenceDate
-    }
-    
-    func stop() {
-        recordFinalPositions()
-        timer?.invalidate()
-    }
-    
-    @objc private func timerHasTicked(timer: Timer) {
-        
-        let currentTime = Date.timeIntervalSinceReferenceDate
-        timerElapsedTime = (currentTime - timerStartTime)
-        objectWillChange.send()
-        
-        switch currentArea {
-        case .areaOne:
-            areaOneElapsedTime += tick
-            break
-        case .areaTwo:
-            areaTwoElapsedTime += tick
-            break
-        }
-    }
-    
-    init(name: String) {
-        self.name = name
-    }
-    
-    func constructAllTransitionsCSV() -> String {
-        var csv = ""
-        transitions.forEach { transition in
-            csv += transition
-        }
-        return csv
-    }
-    
-    func constructOverallStatsCSV() -> String {
-        return "\(name),\(formattedTimeOne),\(formattedTimeTwo),\(transitions.count - 2)\n"
     }
 }
