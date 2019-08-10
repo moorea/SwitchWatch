@@ -59,7 +59,7 @@ class ObservationSession: ObservableObject {
         let rawDataFilePath = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(rawDataFileName)
         let statsFilePath = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(statsFileName)
 
-        var rawDataCSVText = "id,state,elapsedTime\n"
+        var rawDataCSVText = "id,event,elapsedTime\n"
         items.forEach { item in
             rawDataCSVText += item.constructAllTransitionsCSV()
         }
