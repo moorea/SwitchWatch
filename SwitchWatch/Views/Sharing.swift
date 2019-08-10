@@ -19,21 +19,21 @@ struct SwiftUIFileShareActivityViewController : UIViewControllerRepresentable {
     }
     func updateUIViewController(_ uiViewController: FileShareActivityViewController, context: Context) { }
     
-    func shareFile(fileURL: URL?) {
-        activityViewController.fileURL = fileURL
+    func shareFiles(fileURLs: [URL?]?) {
+        activityViewController.fileURLs = fileURLs
         activityViewController.shareFile()
     }
 }
 
 class FileShareActivityViewController : UIViewController {
 
-    var fileURL: URL?
+    var fileURLs: [URL?]?
 
     @objc func shareFile() {
-        guard let url = fileURL else {
+        guard let urls = fileURLs else {
             return
         }
-        let vc = UIActivityViewController(activityItems: [url], applicationActivities: [])
+        let vc = UIActivityViewController(activityItems: urls as [Any], applicationActivities: [])
         vc.excludedActivityTypes =  [
             UIActivity.ActivityType.postToWeibo,
             UIActivity.ActivityType.assignToContact,

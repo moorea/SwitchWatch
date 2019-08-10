@@ -38,6 +38,29 @@ struct ObservationSessionView: View {
         }
     }
     
+    var notBegunActions: some View {
+        VStack {
+            Button(action: { self.session.addItem(name: "") }) { Text("Add Item") }.padding()
+            Button(action: self.session.start) { Text("Begin Observation") }.padding()
+        }
+    }
+    
+    var runningActions: some View {
+        Button(action: { self.session.stop() }) { Text("End Observation") }.padding()
+    }
+    
+    var completeActions: some View {
+        Button(action: {
+            self.session.export()
+            self.activityViewController.shareFiles(fileURLs: [self.session.exportedRawDataFilePath, self.session.exportedStatsFilePath])
+        }) {
+            ZStack {
+                Text("Share")
+                self.activityViewController
+            }
+        }.frame(width: 60, height: 60)
+    }
+    
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
@@ -45,20 +68,12 @@ struct ObservationSessionView: View {
                     self.headerView
                     self.itemCards
                     
-                    if !self.session.isRunning {
-                        Button(action: { withAnimation { self.session.addItem(name: "") } }) { Text("Add Item") } .padding()
-                        Button(action: { self.session.start() }) { Text("Begin Observation") }.padding()
-                        Button(action: {
-                            self.session.export()
-                            self.activityViewController.shareFile(fileURL: self.session.exportedFilePath)
-                        }) {
-                            ZStack {
-                                Text("Share")
-                                self.activityViewController
-                            }
-                        }.frame(width: 60, height: 60)
+                    if self.session.state == .notBegun {
+                        self.notBegunActions
+                    } else if self.session.state == .running {
+                        self.runningActions
                     } else {
-                        Button(action: { self.session.stop() }) { Text("End Observation") }.padding()
+                        self.completeActions
                     }
                 }
                 .frame(width: geometry.size.width)

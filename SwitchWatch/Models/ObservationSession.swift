@@ -9,11 +9,17 @@
 import Combine
 import Foundation
 
+enum SessionState {
+    case notBegun
+    case running
+    case complete
+}
+
 class ObservationSession: ObservableObject {
     let objectWillChange = ObservableObjectPublisher()
     var groupName: String
     var items: [ObservedItem] = []
-    var isRunning: Bool = false
+    var state: SessionState = .notBegun
     
     init(groupName: String) {
         self.groupName = groupName
@@ -26,30 +32,41 @@ class ObservationSession: ObservableObject {
     
     func start() {
         items.forEach { $0.start() }
-        isRunning = true
+        state = .running
         objectWillChange.send()
     }
     
     func stop() {
         items.forEach { $0.stop() }
-        isRunning = false
+        state = .complete
         objectWillChange.send()
     }
     
-    var exportedFilePath: URL?
-    
+    var exportedRawDataFilePath: URL?
+    var exportedStatsFilePath: URL?
+
     func export() {
-        let fileName = "\(groupName)_times.csv"
-        let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
+        let rawDataFileName = "\(groupName)_raw_transition_times.csv"
+        let statsFileName = "\(groupName)_stats.csv"
         
-        var csvText = ""
+        let rawDataFilePath = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(rawDataFileName)
+        let statsFilePath = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(statsFileName)
+
+        var rawDataCSVText = "id,state,elapsedTime\n"
         items.forEach { item in
-            csvText += item.constructCSV()
+            rawDataCSVText += item.constructAllTransitionsCSV()
+        }
+        
+        var statsCSV = "id,elapsedTimeInLight,elapsedTimeInDark,numberOfTransitions\n"
+        items.forEach { item in
+            statsCSV += item.constructOverallStatsCSV()
         }
         
         do {
-            try csvText.write(to: path!, atomically: true, encoding: String.Encoding.utf8)
-            exportedFilePath = path
+            try rawDataCSVText.write(to: rawDataFilePath!, atomically: true, encoding: String.Encoding.utf8)
+            try statsCSV.write(to: statsFilePath!, atomically: true, encoding: String.Encoding.utf8)
+            exportedRawDataFilePath = rawDataFilePath
+            exportedStatsFilePath = statsFilePath
         } catch {
             
             print("Failed to create file")

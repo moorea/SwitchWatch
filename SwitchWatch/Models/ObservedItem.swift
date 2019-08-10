@@ -47,7 +47,9 @@ class ObservedItem: ObservableObject, Identifiable {
 
     var currentArea: CurrentArea = .areaOne {
         didSet {
-            recordTransition()
+            if timerElapsedTime > 0 {
+                recordTransition()
+            }
         }
     }
     
@@ -64,8 +66,34 @@ class ObservedItem: ObservableObject, Identifiable {
         }
     }
     
+    private func recordInitialPositions() {
+        switch currentArea {
+        case .areaOne:
+            transitions.append("\(name),BeginLight,\(timerElapsedTime)\n")
+            print("Item \(id) beginning in light @ \(timerElapsedTime)")
+            break
+        case .areaTwo:
+            transitions.append("\(name),BeginDark,\(timerElapsedTime)\n")
+            print("Item \(id) beginning in dark @ \(timerElapsedTime)")
+            break
+        }
+    }
+    
+    private func recordFinalPositions() {
+        switch currentArea {
+        case .areaOne:
+            transitions.append("\(name),EndLight,\(timerElapsedTime)\n")
+            print("Item \(id) ending in light @ \(timerElapsedTime)")
+            break
+        case .areaTwo:
+            transitions.append("\(name),EndDark,\(timerElapsedTime)\n")
+            print("Item \(id) ending in dark @ \(timerElapsedTime)")
+            break
+        }
+    }
+    
     func start() {
-        recordTransition()
+        recordInitialPositions()
         timer = Timer.scheduledTimer(timeInterval: tick, target: self,
                                      selector: #selector(timerHasTicked(timer:)),
                                      userInfo: nil, repeats: true)
@@ -74,6 +102,7 @@ class ObservedItem: ObservableObject, Identifiable {
     }
     
     func stop() {
+        recordFinalPositions()
         timer?.invalidate()
     }
     
@@ -97,11 +126,15 @@ class ObservedItem: ObservableObject, Identifiable {
         self.name = name
     }
     
-    func constructCSV() -> String {
+    func constructAllTransitionsCSV() -> String {
         var csv = ""
         transitions.forEach { transition in
             csv += transition
         }
         return csv
+    }
+    
+    func constructOverallStatsCSV() -> String {
+        return "\(name),\(areaOneElapsedTime),\(areaTwoElapsedTime),\(transitions.count - 2)\n"
     }
 }
