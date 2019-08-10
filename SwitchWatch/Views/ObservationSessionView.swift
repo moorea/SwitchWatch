@@ -18,7 +18,7 @@ struct ObservationSessionView: View {
         VStack {
             HStack {
                 Text("Group:")
-                TextField("e.g. - Family A", text: self.$session.groupName)
+                TextField("e.g. - family_a", text: self.$session.groupName)
             }
             Divider()
         }
