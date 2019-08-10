@@ -39,12 +39,12 @@ class ObservationSession: ObservableObject {
     func stop() {
         items.forEach { $0.stop() }
         state = .complete
-        groupName = ""
         objectWillChange.send()
     }
     
     func reset() {
         items = []
+        groupName = ""
         state = .notBegun
         objectWillChange.send()
     }
