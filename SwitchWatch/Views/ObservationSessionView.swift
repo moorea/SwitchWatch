@@ -11,7 +11,6 @@ import Combine
 
 struct ObservationSessionView: View {
     @ObservedObject var session: ObservationSession
-    @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
 
     let activityViewController = SwiftUIFileShareActivityViewController()
     
@@ -84,7 +83,6 @@ struct ObservationSessionView: View {
             .padding()
             .navigationBarTitle(Text("SwitchWatch"), displayMode: .inline)
         }
-        
     }
 }
 
@@ -96,7 +94,6 @@ struct ContentView_Previews: PreviewProvider {
         session.addItem(name: "1")
         session.addItem(name: "2")
         session.addItem(name: "")
-        //session.isRunning = true
         return session
     }
     
@@ -107,4 +104,3 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 #endif
-
