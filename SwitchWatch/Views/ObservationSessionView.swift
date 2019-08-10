@@ -50,15 +50,18 @@ struct ObservationSessionView: View {
     }
     
     var completeActions: some View {
-        Button(action: {
-            self.session.export()
-            self.activityViewController.shareFiles(fileURLs: [self.session.exportedRawDataFilePath, self.session.exportedStatsFilePath])
-        }) {
-            ZStack {
-                Text("Share")
-                self.activityViewController
-            }
-        }.frame(width: 60, height: 60)
+        VStack {
+            Button(action: {
+                self.session.export()
+                self.activityViewController.shareFiles(fileURLs: [self.session.exportedRawDataFilePath, self.session.exportedStatsFilePath])
+            }) {
+                ZStack {
+                    Text("Share")
+                    self.activityViewController
+                }
+            }.frame(width: 60, height: 60)
+            Button(action: { self.session.reset() }) { Text("Start Over") }.padding()
+        }
     }
     
     var body: some View {
