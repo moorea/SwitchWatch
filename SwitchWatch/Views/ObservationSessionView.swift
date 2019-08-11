@@ -20,6 +20,14 @@ struct ObservationSessionView: View {
                 Text("Group:")
                 TextField("e.g. - family_a", text: self.$session.groupName)
             }
+            HStack {
+                Text("Trial #:")
+                TextField("e.g. - 1", text: self.$session.trialNumber)
+            }
+            HStack {
+                Text("Day #:")
+                TextField("e.g. - 2", text: self.$session.trialDayNumber)
+            }
             Divider()
         }
     }
@@ -39,7 +47,7 @@ struct ObservationSessionView: View {
     
     var notBegunActions: some View {
         VStack {
-            Button(action: { self.session.addItem(name: "") }) { Text("Add Item") }.padding()
+            Button(action: { self.session.addItem(name: "") }) { Text("Add Item").frame(width: 200) }.padding()
             Button(action: self.session.start) { Text("Begin Observation") }.padding()
         }
     }
@@ -64,25 +72,22 @@ struct ObservationSessionView: View {
     }
     
     var body: some View {
-        NavigationView {
-            GeometryReader { geometry in
-                ScrollView([.vertical], showsIndicators: false) {
-                    self.headerView
-                    self.itemCards
-                    
-                    if self.session.state == .notBegun {
-                        self.notBegunActions
-                    } else if self.session.state == .running {
-                        self.runningActions
-                    } else {
-                        self.completeActions
-                    }
+        GeometryReader { geometry in
+            ScrollView([.vertical], showsIndicators: false) {
+                self.headerView
+                self.itemCards
+                
+                if self.session.state == .notBegun {
+                    self.notBegunActions
+                } else if self.session.state == .running {
+                    self.runningActions
+                } else {
+                    self.completeActions
                 }
-                .frame(width: geometry.size.width)
             }
-            .padding()
-            .navigationBarTitle(Text("SwitchWatch"), displayMode: .inline)
+            .frame(width: 320)
         }
+        .padding()
     }
 }
 

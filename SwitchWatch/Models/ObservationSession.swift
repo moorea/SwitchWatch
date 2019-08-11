@@ -18,11 +18,15 @@ enum SessionState {
 class ObservationSession: ObservableObject {
     let objectWillChange = ObservableObjectPublisher()
     var groupName: String
+    var trialNumber: String
+    var trialDayNumber: String
     private(set) var items: [ObservedItem] = []
     private(set) var state: SessionState = .notBegun
     
-    init(groupName: String) {
+    init(groupName: String = "", trialNumber: String = "", trialDayNumber: String = "") {
         self.groupName = groupName
+        self.trialNumber = trialNumber
+        self.trialDayNumber = trialDayNumber
     }
     
     func addItem(name: String) {
@@ -56,14 +60,14 @@ class ObservationSession: ObservableObject {
         let rawDataFilePath = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(rawDataFileName)
         let statsFilePath = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(statsFileName)
 
-        var rawDataCSVText = "id,event,elapsedTime\n"
+        var rawDataCSVText = "group,trial,day,id,event,elapsedTime\n"
         items.forEach { item in
-            rawDataCSVText += item.constructAllTransitionsCSV()
+            rawDataCSVText += item.constructAllTransitionsCSV(groupName: groupName, trial: trialNumber, day: trialDayNumber)
         }
         
-        var statsCSV = "id,elapsedTimeInLight,elapsedTimeInDark,numberOfTransitions\n"
+        var statsCSV = "group,trial,day,id,elapsedTimeInLight,elapsedTimeInDark,numberOfTransitions\n"
         items.forEach { item in
-            statsCSV += item.constructOverallStatsCSV()
+            statsCSV += item.constructOverallStatsCSV(groupName: groupName, trial: trialNumber, day: trialDayNumber)
         }
         
         do {

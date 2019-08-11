@@ -94,16 +94,16 @@ class ObservedItem: ObservableObject, Identifiable {
     
     //MARK: - Data Export
     
-    func constructAllTransitionsCSV() -> String {
+    func constructAllTransitionsCSV(groupName: String, trial: String, day: String) -> String {
         var csv = ""
         transitions.forEach { transition in
-            csv += transition
+            csv += "\(groupName),\(trial),\(day),\(transition)"
         }
         return csv
     }
     
-    func constructOverallStatsCSV() -> String {
-        return "\(name),\(formattedTimeOne),\(formattedTimeTwo),\(transitions.count - 2)\n"
+    func constructOverallStatsCSV(groupName: String, trial: String, day: String) -> String {
+        return "\(groupName),\(trial),\(day),\(name),\(formattedTimeOne),\(formattedTimeTwo),\(transitions.count - 2)\n"
     }
     
     //MARK: - Transition Recording

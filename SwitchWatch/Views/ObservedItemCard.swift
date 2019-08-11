@@ -24,8 +24,8 @@ struct ObservedItemCard: View {
                 }
                 
                 Picker(selection: $item.currentArea, label: Text("Picker")) {
-                    Text("Light: \(item.formattedTimeOne)").tag(CurrentArea.areaOne)
-                    Text("Dark: \(item.formattedTimeTwo)").tag(CurrentArea.areaTwo)
+                    Text("L: \(item.formattedTimeOne)").tag(CurrentArea.areaOne)
+                    Text("D: \(item.formattedTimeTwo)").tag(CurrentArea.areaTwo)
                 }
                 .pickerStyle(SegmentedPickerStyle())
             }
