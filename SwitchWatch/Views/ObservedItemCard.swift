@@ -18,7 +18,7 @@ struct ObservedItemCard: View {
                 HStack(alignment: .center, spacing: 4) {
                     Text("ID:")
                         .font(Font.system(size: 13.0))
-                        .padding([.leading], 8)
+                        .padding(.leading, 8)
                     TextField("e.g. - 8", text: $item.name)
                         .padding([.leading, .trailing], 8)
                 }

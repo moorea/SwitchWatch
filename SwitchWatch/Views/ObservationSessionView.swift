@@ -85,7 +85,7 @@ struct ObservationSessionView: View {
                     self.completeActions
                 }
             }
-            .frame(width: 320)
+            .frame(width: geometry.size.width)
         }
         .padding()
     }
