@@ -34,7 +34,7 @@ A particular research project studying the potential for personality traits in t
 
 After completing an observation session, tap "share" to export two files.
 
-###raw_transition_times.csv
+### raw_transition_times.csv
 
 As the name suggests, this file contains all the raw data recorded from every tap of every toggle throughout the session. Imported into excel/sheets/numbers looks something like:
 
@@ -45,7 +45,6 @@ As the name suggests, this file contains all the raw data recorded from every ta
 This file provides the rolled-up stats for each item during the observation session.
 
 ![StatsTable](/Users/andrewm/Library/CloudStorage/iCloudDrive/Desktop/SwitchWatch Images/StatsTable.png)
-
 
 
 ## Requirements
