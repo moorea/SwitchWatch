@@ -32,7 +32,7 @@ After completing an observation session, tap "share" to export two files.
 
 As the name suggests, this file contains all the raw data recorded from every tap of every toggle throughout the session. Imported into excel/sheets/numbers looks something like:
 
-![RawDataTable](https://github.com/moorea/SwitchWatch/blob/master/Images/RawDataTable.png | width=100)
+![RawDataTable](https://github.com/moorea/SwitchWatch/blob/master/Images/RawDataTable.png)
 
 ### stats.csv
 
