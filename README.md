@@ -15,8 +15,6 @@ Initiailly built to aid a research project at UW-Milwaukee, SwitchWatch makes it
 
 ![SessionStart](/Users/andrewm/Library/CloudStorage/iCloudDrive/Desktop/SwitchWatch Images/SessionStart.png)
 
-
-
 ![SessionStart](/Users/andrewm/Library/CloudStorage/iCloudDrive/Desktop/SwitchWatch Images/SessionComplete.png)
 
 ## App Features
@@ -68,8 +66,6 @@ We would love you for the contribution to **SwitchWatch**, check the ``LICENSE``
 Your Name – [@YourTwitter](https://twitter.com/dbader_org) – admoore14@gmail.com
 
 Distributed under the MIT license. See ``LICENSE`` for more information.
-
-[https://github.com/yourname/github-link](https://github.com/dbader/)
 
 [swift-image]:https://img.shields.io/badge/swift-5.1-orange.svg
 [swift-url]: https://swift.org/
