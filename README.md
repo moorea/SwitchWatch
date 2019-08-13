@@ -5,7 +5,7 @@
 [![License][license-image]][license-url] 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-Initiailly built to aid a research project at UW-Milwaukee, SwitchWatch makes it easy to record and export state transitions. 
+Initially built to aid a research project, SwitchWatch makes it easy to record and export state transitions of items under observation over time. 
 
 ## Screenshots
 
