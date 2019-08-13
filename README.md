@@ -8,9 +8,9 @@
 Initially built to aid a research project, SwitchWatch makes it easy to record and export state transitions of items under observation over time. 
 
 ## Screenshots
-
-<img src="https://github.com/moorea/SwitchWatch/blob/master/Images/SessionStart.png" width="100" height="100">
-![SessionStart](https://github.com/moorea/SwitchWatch/blob/master/Images/SessionComplete.png)
+Setup Observation            |  Completed Observation
+:-------------------------:|:-------------------------:
+<img src="https://github.com/moorea/SwitchWatch/blob/master/Images/SessionStart.png" width="375" height="667">  |  <img src="https://github.com/moorea/SwitchWatch/blob/master/Images/SessionComplete.png" width="375" height="667">
 
 ## App Features
 
@@ -31,7 +31,7 @@ After completing an observation session, tap "share" to export two files.
 
 As the name suggests, this file contains all the raw data recorded from every tap of every toggle throughout the session. Imported into excel/sheets/numbers looks something like:
 
-![RawDataTable](https://github.com/moorea/SwitchWatch/blob/master/Images/RawDataTable.png)
+<img src="https://github.com/moorea/SwitchWatch/blob/master/Images/RawDataTable.png" width="425" height="500"> 
 
 ### stats.csv
 
