@@ -9,8 +9,7 @@ Initially built to aid a research project, SwitchWatch makes it easy to record a
 
 ## Screenshots
 
-![SessionStart](https://github.com/moorea/SwitchWatch/blob/master/Images/SessionStart.png)
-
+<img src="https://github.com/moorea/SwitchWatch/blob/master/Images/SessionStart.png" width="100" height="100">
 ![SessionStart](https://github.com/moorea/SwitchWatch/blob/master/Images/SessionComplete.png)
 
 ## App Features
