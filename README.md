@@ -9,9 +9,9 @@ Initially built to aid a research project, SwitchWatch makes it easy to record a
 
 ## Screenshots
 
-![SessionStart](/Users/andrewm/Library/CloudStorage/iCloudDrive/Desktop/SwitchWatch Images/SessionStart.png)
+![SessionStart](https://github.com/moorea/SwitchWatch/blob/master/Images/SessionStart.png)
 
-![SessionStart](/Users/andrewm/Library/CloudStorage/iCloudDrive/Desktop/SwitchWatch Images/SessionComplete.png)
+![SessionStart](https://github.com/moorea/SwitchWatch/blob/master/Images/SessionComplete.png)
 
 ## App Features
 
@@ -38,7 +38,7 @@ As the name suggests, this file contains all the raw data recorded from every ta
 
 This file provides the rolled-up stats for each item during the observation session.
 
-![StatsTable](/Users/andrewm/Library/CloudStorage/iCloudDrive/Desktop/SwitchWatch Images/StatsTable.png)
+![StatsTable](https://github.com/moorea/SwitchWatch/blob/master/Images/StatsTable.png)
 
 
 ## Requirements
