@@ -54,11 +54,11 @@ This file provides the rolled-up stats for each item during the observation sess
 
 ## Contribute
 
-We would love you for the contribution to **SwitchWatch**, check the ``LICENSE`` file for more info.
+I'd love for you to make a contribution to **SwitchWatch** if you think you can make it more useful for your purposes, check the ``LICENSE`` file for more info.
 
 ## Meta
 
-Your Name – [@YourTwitter](https://twitter.com/dbader_org) – admoore14@gmail.com
+[Andrew Moore](https://www.linkedin.com/in/moorea/) – admoore14@gmail.com
 
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
