@@ -20,23 +20,19 @@ Setup Observation            |  Completed Observation
 - [x] After beginning an observation, toggle an item to record a transition and swap that item's active timer
 - [x] Export data
 
-## Example Problem
-
-A particular research project studying the potential for personality traits in tadpoles, needed to record the times at which tadpoles in petri-dishes moved between light and dark.
-
 ## Example Data Export
 
 After completing an observation session, tap "share" to export two files.
 
 ### raw_transition_times.csv
 
-As the name suggests, this file contains all the raw data recorded from every tap of every toggle throughout the session. Imported into excel/sheets/numbers looks something like:
+As the name suggests, this file contains all the raw data recorded from every tap of every toggle throughout the session. Importing into excel/sheets/numbers looks something like:
 
 <img src="https://github.com/moorea/SwitchWatch/blob/master/Images/RawDataTable.png" width="425" height="500"> 
 
 ### stats.csv
 
-This file provides the rolled-up stats for each item during the observation session.
+This file provides the rolled-up stats for each item during the observation session:
 
 ![StatsTable](https://github.com/moorea/SwitchWatch/blob/master/Images/StatsTable.png)
 
