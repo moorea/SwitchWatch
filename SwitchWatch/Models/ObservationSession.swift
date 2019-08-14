@@ -29,8 +29,8 @@ class ObservationSession: ObservableObject {
         self.trialDayNumber = trialDayNumber
     }
     
-    func addItem(name: String) {
-        items.append(ObservedItem(name: name))
+    func addItem(id: String) {
+        items.append(ObservedItem(id: id))
         objectWillChange.send()
     }
     
@@ -65,11 +65,11 @@ class ObservationSession: ObservableObject {
             rawDataCSVText += item.constructAllTransitionsCSV(groupName: groupName, trial: trialNumber, day: trialDayNumber)
         }
         
-        var statsCSV = "group,trial,day,id,elapsedTimeInLight,elapsedTimeInDark,numberOfTransitions\n"
+        var statsCSV = "group,trial,day,id,elapsedTimeInA,elapsedTimeInB,numberOfTransitions\n"
         items.forEach { item in
             statsCSV += item.constructOverallStatsCSV(groupName: groupName, trial: trialNumber, day: trialDayNumber)
         }
-        
+
         do {
             try rawDataCSVText.write(to: rawDataFilePath!, atomically: true, encoding: String.Encoding.utf8)
             try statsCSV.write(to: statsFilePath!, atomically: true, encoding: String.Encoding.utf8)

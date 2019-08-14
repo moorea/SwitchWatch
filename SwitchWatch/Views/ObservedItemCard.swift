@@ -19,13 +19,13 @@ struct ObservedItemCard: View {
                     Text("ID:")
                         .font(Font.system(size: 13.0))
                         .padding(.leading, 8)
-                    TextField("e.g. - 8", text: $item.name)
+                    TextField("e.g. - 8", text: $item.id)
                         .padding([.leading, .trailing], 8)
                 }
                 
                 Picker(selection: $item.currentArea, label: Text("Picker")) {
-                    Text("L: \(item.formattedTimeOne)").tag(CurrentArea.areaOne)
-                    Text("D: \(item.formattedTimeTwo)").tag(CurrentArea.areaTwo)
+                    Text("A: \(item.formattedTimeOne)").tag(CurrentArea.areaA)
+                    Text("B: \(item.formattedTimeTwo)").tag(CurrentArea.areaB)
                 }
                 .pickerStyle(SegmentedPickerStyle())
             }
@@ -39,11 +39,11 @@ struct ObservedItemCard: View {
 struct WatchedItemCard_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ObservedItemCard(item: ObservedItem(name: "Item 1"))
+            ObservedItemCard(item: ObservedItem(id: "Item 1"))
                 .previewLayout(PreviewLayout.fixed(width: 200, height: 100))
                 .environment(\.colorScheme, .light)
             
-            ObservedItemCard(item: ObservedItem(name: "Item 2"))
+            ObservedItemCard(item: ObservedItem(id: "Item 2"))
                 .previewLayout(PreviewLayout.fixed(width: 200, height: 100))
                 .environment(\.colorScheme, .dark)
         }

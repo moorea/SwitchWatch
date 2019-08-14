@@ -47,7 +47,7 @@ struct ObservationSessionView: View {
     
     var notBegunActions: some View {
         VStack {
-            Button(action: { self.session.addItem(name: "") }) { Text("Add Item").frame(width: 200) }.padding()
+            Button(action: { self.session.addItem(id: "") }) { Text("Add Item").frame(width: 200) }.padding()
             Button(action: self.session.start) { Text("Begin Observation") }.padding()
         }
     }
@@ -96,9 +96,9 @@ struct ContentView_Previews: PreviewProvider {
     
     static var session: ObservationSession {
         let session = ObservationSession(groupName: "Family A")
-        session.addItem(name: "1")
-        session.addItem(name: "2")
-        session.addItem(name: "")
+        session.addItem(id: "1")
+        session.addItem(id: "2")
+        session.addItem(id: "")
         return session
     }
     
