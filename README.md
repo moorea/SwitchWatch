@@ -6,6 +6,8 @@
 
 Initially built to aid a research project, SwitchWatch makes it easy to record and export state transitions of items under observation over time. 
 
+Also, a good reason to play around with SwiftUI for the first time.
+
 ## Screenshots
 Setup Observation            |  Completed Observation
 :-------------------------:|:-------------------------:
