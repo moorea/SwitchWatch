@@ -1,5 +1,4 @@
 # SwitchWatch
-> A utility app for recording state transitions of multiple items over time. 
 
 [![Swift Version][swift-image]][swift-url]
 [![License][license-image]][license-url] 
