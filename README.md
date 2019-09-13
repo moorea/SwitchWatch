@@ -19,6 +19,12 @@ Setup Observation            |  Completed Observation
 - [x] Configure multiple items to observe simultaneously
 - [x] After beginning an observation, toggle an item to record a transition and swap that item's active timer
 - [x] Export data
+- [x] Automatically end a observation session after a pre-set amount of time
+
+## Potential Future Features
+- [ ] Ability to save/edit previous observation sessions
+- [ ] Prettier UI
+
 
 ## Example Data Export
 
@@ -40,8 +46,8 @@ This file provides the rolled-up stats for each item during the observation sess
 ## Requirements
 
 - iOS 13.0+
-- Xcode 11 beta 5
-- macOS Catalina (10.15) beta 5
+- Xcode 11
+- macOS Catalina
 
 ## Installation
 
