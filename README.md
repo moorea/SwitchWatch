@@ -1,12 +1,10 @@
-# SwitchWatch
+# Research Assistant
 
 [![Swift Version][swift-image]][swift-url]
 [![License][license-image]][license-url] 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-Initially built to aid a research project, SwitchWatch makes it easy to record and export state transitions of items under observation over time. 
-
-Also, a good reason to play around with SwiftUI for the first time.
+A variety of utilities to aid research projects.
 
 ## Screenshots
 Setup Observation            |  Completed Observation
@@ -57,7 +55,7 @@ This file provides the rolled-up stats for each item during the observation sess
 
 ## Contribute
 
-I'd love for you to make a contribution to **SwitchWatch** if you think you can make it more useful for your purposes, check the ``LICENSE`` file for more info.
+I'd love for you to make a contribution if you think you can make it more useful for your purposes, check the ``LICENSE`` file for more info.
 
 ## Meta
 
