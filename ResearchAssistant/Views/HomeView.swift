@@ -21,6 +21,15 @@ struct HomeView: View {
                             .font(.subheadline)
                     }
                 }
+                NavigationLink(destination: VideoFramesOverlayGeneratorView()) {
+                    
+                    VStack(alignment: .leading) {
+                        Text("Video Frames Overlay")
+                            .font(.headline)
+                        Text("Overlay frames of a video on top of one another.")
+                            .font(.subheadline)
+                    }
+                }
             }
             .navigationBarTitle("Home", displayMode: .large)
         }
