@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
             
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = UIHostingController(rootView: ObservationSessionView(session: ObservationSession(groupName: "")))
+        window?.rootViewController = UIHostingController(rootView: HomeView())
         window?.makeKeyAndVisible()
     }
 }
