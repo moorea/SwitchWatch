@@ -28,6 +28,10 @@ struct ObservationSessionView: View {
                 Text("Day #:")
                 TextField("e.g. - 2", text: self.$session.trialDayNumber)
             }
+            HStack {
+                Text("Duration (sec):")
+                TextField("e.g. - 300", text: self.$session.duration)
+            }
             Divider()
         }
     }

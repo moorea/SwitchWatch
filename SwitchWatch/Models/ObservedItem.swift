@@ -20,8 +20,6 @@ class ObservedItem: ObservableObject, Identifiable {
     
     private var transitions: [String] = []
     
-    private let tickInterval: TimeInterval = 0.5
-    private var timer: Timer?
     private var timerStartTime: TimeInterval = 0
     private var timerElapsedTime: TimeInterval = 0
     private var areaOneElapsedTime: TimeInterval = 0
@@ -61,24 +59,15 @@ class ObservedItem: ObservableObject, Identifiable {
     
     //MARK: - Timer Control
     
-    func start() {
+    func start(at initialTime: TimeInterval) {
+        timerStartTime = initialTime
         recordInitialPositions()
-        timer = Timer.scheduledTimer(timeInterval: tickInterval, target: self,
-                                     selector: #selector(timerHasTicked(timer:)),
-                                     userInfo: nil, repeats: true)
-        RunLoop.current.add(timer!, forMode: RunLoop.Mode.common)
-        timerStartTime = Date.timeIntervalSinceReferenceDate
     }
     
-    func stop() {
-        recordFinalPositions()
-        timer?.invalidate()
-    }
-    
-    @objc private func timerHasTicked(timer: Timer) {
-        
-        let currentTime = Date.timeIntervalSinceReferenceDate
-        timerElapsedTime = (currentTime - timerStartTime)
+    func update(with elapsedTime: TimeInterval) {
+        let tickInterval = elapsedTime - timerElapsedTime
+
+        timerElapsedTime = elapsedTime
         objectWillChange.send()
         
         switch currentArea {
@@ -89,6 +78,10 @@ class ObservedItem: ObservableObject, Identifiable {
             areaTwoElapsedTime += tickInterval
             break
         }
+    }
+    
+    func stop() {
+        recordFinalPositions()
     }
     
     //MARK: - Data Export

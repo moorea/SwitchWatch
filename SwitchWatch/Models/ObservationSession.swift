@@ -20,6 +20,13 @@ class ObservationSession: ObservableObject {
     var groupName: String
     var trialNumber: String
     var trialDayNumber: String
+    var duration: String = "300"
+    
+    private var timer: Timer?
+    private let tickInterval: TimeInterval = 0.5
+    private var timerStartTime: TimeInterval = 0
+    private var timerElapsedTime: TimeInterval = 0
+
     private(set) var items: [ObservedItem] = []
     private(set) var state: SessionState = .notBegun
     
@@ -35,12 +42,38 @@ class ObservationSession: ObservableObject {
     }
     
     func start() {
-        items.forEach { $0.start() }
+        timer = Timer.scheduledTimer(timeInterval: tickInterval, target: self,
+                                     selector: #selector(timerHasTicked(timer:)),
+                                     userInfo: nil, repeats: true)
+        RunLoop.current.add(timer!, forMode: RunLoop.Mode.common)
+        
+        timerStartTime = Date.timeIntervalSinceReferenceDate
+        
+        items.forEach { $0.start(at: timerStartTime) }
+        
         state = .running
         objectWillChange.send()
     }
     
+    @objc private func timerHasTicked(timer: Timer) {
+        
+        let currentTime = Date.timeIntervalSinceReferenceDate
+        timerElapsedTime = (currentTime - timerStartTime) * 10 / 10
+        let roundedTimerElapsedTime = Double(String(format: "%.1f", timerElapsedTime)) ?? 0
+        
+        print (roundedTimerElapsedTime.description)
+        guard roundedTimerElapsedTime <= Double(duration) ?? 0 else {
+            stop()
+            return
+        }
+        
+        items.forEach { $0.update(with: timerElapsedTime) }
+
+        objectWillChange.send()
+    }
+    
     func stop() {
+        timer?.invalidate()
         items.forEach { $0.stop() }
         state = .complete
         objectWillChange.send()
