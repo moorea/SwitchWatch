@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:SwitchWatch.xcodeproj">
+      location = "self:/Users/anmoore/Projects/github/SwitchWatch/ResearchAssistant.xcodeproj">
    </FileRef>
 </Workspace>

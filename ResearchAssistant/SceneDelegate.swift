@@ -1,6 +1,6 @@
 //
 //  SceneDelegate.swift
-//  SwitchWatch
+//  ResearchAssistant
 //
 //  Created by Andrew Moore on 8/9/19.
 //  Copyright © 2019 Andrew Moore. All rights reserved.

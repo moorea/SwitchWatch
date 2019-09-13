@@ -21,7 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4A4D3BF522FE429B00E7DC64 /* SwitchWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwitchWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A4D3BF522FE429B00E7DC64 /* Research.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Research.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A4D3BF822FE429B00E7DC64 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4A4D3BFA22FE429B00E7DC64 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		4A4D3BFC22FE429B00E7DC64 /* ObservationSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationSessionView.swift; sourceTree = "<group>"; };
@@ -29,7 +29,7 @@
 		4A4D3C0122FE429E00E7DC64 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4A4D3C0422FE429E00E7DC64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4A4D3C0622FE429E00E7DC64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4A4D3C0C22FE42BF00E7DC64 /* SwitchWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwitchWatch.entitlements; sourceTree = "<group>"; };
+		4A4D3C0C22FE42BF00E7DC64 /* ResearchAssistant.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ResearchAssistant.entitlements; sourceTree = "<group>"; };
 		4A516B3022FE665B00F09F3F /* Sharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sharing.swift; sourceTree = "<group>"; };
 		4A516B3322FF296600F09F3F /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		4A516B3722FF2BD600F09F3F /* ObservationSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationSession.swift; sourceTree = "<group>"; };
@@ -51,7 +51,7 @@
 		4A4D3BEC22FE429B00E7DC64 = {
 			isa = PBXGroup;
 			children = (
-				4A4D3BF722FE429B00E7DC64 /* SwitchWatch */,
+				4A4D3BF722FE429B00E7DC64 /* ResearchAssistant */,
 				4A4D3BF622FE429B00E7DC64 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -59,18 +59,18 @@
 		4A4D3BF622FE429B00E7DC64 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4A4D3BF522FE429B00E7DC64 /* SwitchWatch.app */,
+				4A4D3BF522FE429B00E7DC64 /* Research.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4A4D3BF722FE429B00E7DC64 /* SwitchWatch */ = {
+		4A4D3BF722FE429B00E7DC64 /* ResearchAssistant */ = {
 			isa = PBXGroup;
 			children = (
 				4A516B3622FF2BC700F09F3F /* Models */,
 				4A516B3522FF2BBC00F09F3F /* Views */,
 				4A516B3222FF295800F09F3F /* Extensions */,
-				4A4D3C0C22FE42BF00E7DC64 /* SwitchWatch.entitlements */,
+				4A4D3C0C22FE42BF00E7DC64 /* ResearchAssistant.entitlements */,
 				4A4D3BF822FE429B00E7DC64 /* AppDelegate.swift */,
 				4A4D3BFA22FE429B00E7DC64 /* SceneDelegate.swift */,
 				4A4D3BFE22FE429E00E7DC64 /* Assets.xcassets */,
@@ -78,7 +78,7 @@
 				4A4D3C0622FE429E00E7DC64 /* Info.plist */,
 				4A4D3C0022FE429E00E7DC64 /* Preview Content */,
 			);
-			path = SwitchWatch;
+			path = ResearchAssistant;
 			sourceTree = "<group>";
 		};
 		4A4D3C0022FE429E00E7DC64 /* Preview Content */ = {
@@ -119,9 +119,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4A4D3BF422FE429B00E7DC64 /* SwitchWatch */ = {
+		4A4D3BF422FE429B00E7DC64 /* ResearchAssistant */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4A4D3C0922FE429E00E7DC64 /* Build configuration list for PBXNativeTarget "SwitchWatch" */;
+			buildConfigurationList = 4A4D3C0922FE429E00E7DC64 /* Build configuration list for PBXNativeTarget "ResearchAssistant" */;
 			buildPhases = (
 				4A4D3BF122FE429B00E7DC64 /* Sources */,
 				4A4D3BF222FE429B00E7DC64 /* Frameworks */,
@@ -131,9 +131,9 @@
 			);
 			dependencies = (
 			);
-			name = SwitchWatch;
+			name = ResearchAssistant;
 			productName = SwitchWatch;
-			productReference = 4A4D3BF522FE429B00E7DC64 /* SwitchWatch.app */;
+			productReference = 4A4D3BF522FE429B00E7DC64 /* Research.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -151,7 +151,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4A4D3BF022FE429B00E7DC64 /* Build configuration list for PBXProject "SwitchWatch" */;
+			buildConfigurationList = 4A4D3BF022FE429B00E7DC64 /* Build configuration list for PBXProject "ResearchAssistant" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -164,7 +164,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4A4D3BF422FE429B00E7DC64 /* SwitchWatch */,
+				4A4D3BF422FE429B00E7DC64 /* ResearchAssistant */,
 			);
 		};
 /* End PBXProject section */
@@ -330,19 +330,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SwitchWatch/SwitchWatch.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ResearchAssistant/ResearchAssistant.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
-				DEVELOPMENT_ASSET_PATHS = "SwitchWatch/Preview\\ Content";
+				DEVELOPMENT_ASSET_PATHS = "ResearchAssistant/Preview\\ Content";
 				DEVELOPMENT_TEAM = NHVSQN8Z3B;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = SwitchWatch/Info.plist;
+				INFOPLIST_FILE = ResearchAssistant/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.moore.SwitchWatch;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.moore.ResearchAssistant;
+				PRODUCT_NAME = Research;
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -353,19 +353,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SwitchWatch/SwitchWatch.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ResearchAssistant/ResearchAssistant.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
-				DEVELOPMENT_ASSET_PATHS = "SwitchWatch/Preview\\ Content";
+				DEVELOPMENT_ASSET_PATHS = "ResearchAssistant/Preview\\ Content";
 				DEVELOPMENT_TEAM = NHVSQN8Z3B;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = SwitchWatch/Info.plist;
+				INFOPLIST_FILE = ResearchAssistant/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.moore.SwitchWatch;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.moore.ResearchAssistant;
+				PRODUCT_NAME = Research;
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -375,7 +375,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4A4D3BF022FE429B00E7DC64 /* Build configuration list for PBXProject "SwitchWatch" */ = {
+		4A4D3BF022FE429B00E7DC64 /* Build configuration list for PBXProject "ResearchAssistant" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4A4D3C0722FE429E00E7DC64 /* Debug */,
@@ -384,7 +384,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4A4D3C0922FE429E00E7DC64 /* Build configuration list for PBXNativeTarget "SwitchWatch" */ = {
+		4A4D3C0922FE429E00E7DC64 /* Build configuration list for PBXNativeTarget "ResearchAssistant" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4A4D3C0A22FE429E00E7DC64 /* Debug */,

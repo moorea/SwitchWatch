@@ -1,6 +1,6 @@
 //
 //  ObservationSession.swift
-//  SwitchWatch
+//  ResearchAssistant
 //
 //  Created by Andrew Moore on 8/10/19.
 //  Copyright © 2019 Andrew Moore. All rights reserved.
