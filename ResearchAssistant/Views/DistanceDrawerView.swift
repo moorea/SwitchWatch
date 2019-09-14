@@ -32,29 +32,29 @@ struct Drawing {
 }
 
 struct DistanceDrawerView: View {
-    @State private var currentDrawing: Drawing = Drawing()
-    @State private var drawings: [Drawing] = [Drawing]()
-    
+    @State private var drawingOne: Drawing = Drawing()
+    @State private var drawingTwo: Drawing = Drawing()
+
     var body: some View {
         VStack(alignment: .center) {
-            Text("Distance: \(String(format: "%.1f", currentDrawing.totalDistance))")
+            Text("Distance 1: \(String(format: "%.1f", drawingOne.totalDistance))")
                 .font(.largeTitle)
-            DrawingPad(currentDrawing: $currentDrawing, drawings: $drawings)
+            Text("Distance 2: \(String(format: "%.1f", drawingTwo.totalDistance))")
+                .font(.largeTitle)
+            DrawingPad(drawingOne: $drawingOne, drawingTwo: $drawingTwo)
         }
     }
 }
 
 struct DrawingPad: View {
-    @Binding var currentDrawing: Drawing
-    @Binding var drawings: [Drawing]
-    
+    @Binding var drawingOne: Drawing
+    @Binding var drawingTwo: Drawing
+
     var body: some View {
         GeometryReader { geometry in
             Path { path in
-                for drawing in self.drawings {
-                    self.add(drawing: drawing, toPath: &path)
-                }
-                self.add(drawing: self.currentDrawing, toPath: &path)
+                self.add(drawing: self.drawingOne, toPath: &path)
+                self.add(drawing: self.drawingTwo, toPath: &path)
             }
             .stroke(Color.black, lineWidth: 2.0)
             .background(Color(white: 0.95))
@@ -63,7 +63,34 @@ struct DrawingPad: View {
                     .onChanged({ (value) in
                         let currentPoint = value.location
                         if currentPoint.y >= 0 && currentPoint.y < geometry.size.height {
-                            self.currentDrawing.points.append(currentPoint)
+                            guard let mostRecentOne = self.drawingOne.points.last else {
+                                self.drawingOne.points.append(currentPoint)
+                                return
+                            }
+                            let distanceToOne = mostRecentOne.distance(to: currentPoint)
+                            
+                            guard distanceToOne > 200 else {
+                                self.drawingOne.points.append(currentPoint)
+                                return
+                            }
+                            
+                            guard let mostRecentTwo = self.drawingTwo.points.last else {
+                                self.drawingTwo.points.append(currentPoint)
+                                return
+                            }
+                            
+                            let distanceToTwo = mostRecentTwo.distance(to: currentPoint)
+
+                            guard distanceToTwo > 200 else {
+                                self.drawingTwo.points.append(currentPoint)
+                                return
+                            }
+                            
+                            if distanceToOne < distanceToTwo {
+                                self.drawingOne.points.append(currentPoint)
+                            } else {
+                                self.drawingTwo.points.append(currentPoint)
+                            }
                         }
                     })
                     .onEnded({ (value) in
