@@ -9,8 +9,45 @@
 import SwiftUI
 
 struct VideoFramesOverlayGeneratorView: View {
+    
+    @State var processor: VideoFrameOverlayProcessor?
+    @State var generatedImageURL: URL?
+    let activityViewController = SwiftUIFileShareActivityViewController()
+
+    var completeActions: some View {
+        VStack {
+            Button(action: {
+                self.activityViewController.shareFiles(fileURLs: [self.generatedImageURL])
+            }) {
+                ZStack {
+                    Text("Share")
+                    self.activityViewController
+                }
+            }.frame(width: 60, height: 60)
+        }
+    }
+    
     var body: some View {
-        VideoPickerButton()
+        VStack {
+            VideoPickerButton { videoURL in
+                self.processor = VideoFrameOverlayProcessor(videoFileURL: videoURL)
+            }
+            
+            Text(processor?.fileDetails ?? "")
+            Button(action: {
+                self.processor?.analyzeVideo(completion: { generatedImageURL in
+                    self.generatedImageURL = generatedImageURL
+                })
+            }) {
+                HStack {
+                    Text("Analyze")
+                }
+            }
+            
+            if generatedImageURL != nil {
+                completeActions
+            }
+        }
     }
 }
 

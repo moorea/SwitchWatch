@@ -12,7 +12,8 @@ import UIKit
 
 struct VideoPickerButton: View {
     @State private var isPresented = false
-
+    var didPickVideo: ((URL) -> Void)?
+    
     var body: some View {
         Button(action: {
             self.isPresented = true
@@ -23,6 +24,10 @@ struct VideoPickerButton: View {
             }
         }.sheet(isPresented: $isPresented) { () -> VideoPickerViewController in
             VideoPickerViewController { selectedFileURL in
+                guard let url = selectedFileURL else {
+                    return
+                }
+                self.didPickVideo?(url)
                 self.isPresented = false
             }
         }
