@@ -30,6 +30,15 @@ struct HomeView: View {
                             .font(.subheadline)
                     }
                 }
+                NavigationLink(destination: DistanceDrawerView()) {
+                    
+                    VStack(alignment: .leading) {
+                        Text("Distance Draw")
+                            .font(.headline)
+                        Text("Measure distance by dragging")
+                            .font(.subheadline)
+                    }
+                }
             }
             .navigationBarTitle("Home", displayMode: .large)
         }

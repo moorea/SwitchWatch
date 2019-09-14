@@ -22,6 +22,7 @@
 		55BB4A54232C474F008DDDEE /* VideoFramesOverlayGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB4A53232C474F008DDDEE /* VideoFramesOverlayGeneratorView.swift */; };
 		55BB4A56232C5681008DDDEE /* DocumentPickerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB4A55232C5681008DDDEE /* DocumentPickerButton.swift */; };
 		55BB4A5A232C74A4008DDDEE /* VideoFrameOverlayProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB4A59232C74A4008DDDEE /* VideoFrameOverlayProcessor.swift */; };
+		55BB4A5C232D987E008DDDEE /* DistanceDrawerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB4A5B232D987E008DDDEE /* DistanceDrawerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		55BB4A53232C474F008DDDEE /* VideoFramesOverlayGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFramesOverlayGeneratorView.swift; sourceTree = "<group>"; };
 		55BB4A55232C5681008DDDEE /* DocumentPickerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerButton.swift; sourceTree = "<group>"; };
 		55BB4A59232C74A4008DDDEE /* VideoFrameOverlayProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFrameOverlayProcessor.swift; sourceTree = "<group>"; };
+		55BB4A5B232D987E008DDDEE /* DistanceDrawerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceDrawerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 				55BB4A51232C4022008DDDEE /* HomeView.swift */,
 				55BB4A53232C474F008DDDEE /* VideoFramesOverlayGeneratorView.swift */,
 				55BB4A55232C5681008DDDEE /* DocumentPickerButton.swift */,
+				55BB4A5B232D987E008DDDEE /* DistanceDrawerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 				55BB4A5A232C74A4008DDDEE /* VideoFrameOverlayProcessor.swift in Sources */,
 				4A516B3822FF2BD600F09F3F /* ObservationSession.swift in Sources */,
 				4A4D3BFB22FE429B00E7DC64 /* SceneDelegate.swift in Sources */,
+				55BB4A5C232D987E008DDDEE /* DistanceDrawerView.swift in Sources */,
 				4A516B3422FF296600F09F3F /* Color.swift in Sources */,
 				4A516B3E22FF2C7200F09F3F /* ObservedItemCard.swift in Sources */,
 				4A4D3BFD22FE429B00E7DC64 /* ObservationSessionView.swift in Sources */,
