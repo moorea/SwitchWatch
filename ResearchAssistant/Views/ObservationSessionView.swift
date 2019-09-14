@@ -63,7 +63,6 @@ struct ObservationSessionView: View {
     var completeActions: some View {
         VStack {
             Button(action: {
-                
                 self.activityViewController.shareFiles(fileURLs: self.session.export())
             }) {
                 ZStack {
@@ -92,6 +91,7 @@ struct ObservationSessionView: View {
             .frame(width: geometry.size.width)
         }
         .padding()
+        .navigationBarTitle("SwitchWatch", displayMode: .inline)
     }
 }
 

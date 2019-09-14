@@ -18,6 +18,10 @@
 		4A516B3822FF2BD600F09F3F /* ObservationSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A516B3722FF2BD600F09F3F /* ObservationSession.swift */; };
 		4A516B3C22FF2C3300F09F3F /* ObservedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A516B3B22FF2C3300F09F3F /* ObservedItem.swift */; };
 		4A516B3E22FF2C7200F09F3F /* ObservedItemCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A516B3D22FF2C7200F09F3F /* ObservedItemCard.swift */; };
+		55BB4A52232C4022008DDDEE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB4A51232C4022008DDDEE /* HomeView.swift */; };
+		55BB4A54232C474F008DDDEE /* VideoFramesOverlayGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB4A53232C474F008DDDEE /* VideoFramesOverlayGeneratorView.swift */; };
+		55BB4A56232C5681008DDDEE /* DocumentPickerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB4A55232C5681008DDDEE /* DocumentPickerButton.swift */; };
+		55BB4A5A232C74A4008DDDEE /* VideoFrameOverlayProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB4A59232C74A4008DDDEE /* VideoFrameOverlayProcessor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +39,10 @@
 		4A516B3722FF2BD600F09F3F /* ObservationSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationSession.swift; sourceTree = "<group>"; };
 		4A516B3B22FF2C3300F09F3F /* ObservedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservedItem.swift; sourceTree = "<group>"; };
 		4A516B3D22FF2C7200F09F3F /* ObservedItemCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservedItemCard.swift; sourceTree = "<group>"; };
+		55BB4A51232C4022008DDDEE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		55BB4A53232C474F008DDDEE /* VideoFramesOverlayGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFramesOverlayGeneratorView.swift; sourceTree = "<group>"; };
+		55BB4A55232C5681008DDDEE /* DocumentPickerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerButton.swift; sourceTree = "<group>"; };
+		55BB4A59232C74A4008DDDEE /* VideoFrameOverlayProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFrameOverlayProcessor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +111,9 @@
 				4A4D3BFC22FE429B00E7DC64 /* ObservationSessionView.swift */,
 				4A516B3D22FF2C7200F09F3F /* ObservedItemCard.swift */,
 				4A516B3022FE665B00F09F3F /* Sharing.swift */,
+				55BB4A51232C4022008DDDEE /* HomeView.swift */,
+				55BB4A53232C474F008DDDEE /* VideoFramesOverlayGeneratorView.swift */,
+				55BB4A55232C5681008DDDEE /* DocumentPickerButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -112,6 +123,7 @@
 			children = (
 				4A516B3722FF2BD600F09F3F /* ObservationSession.swift */,
 				4A516B3B22FF2C3300F09F3F /* ObservedItem.swift */,
+				55BB4A59232C74A4008DDDEE /* VideoFrameOverlayProcessor.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -187,9 +199,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55BB4A52232C4022008DDDEE /* HomeView.swift in Sources */,
 				4A516B3122FE665B00F09F3F /* Sharing.swift in Sources */,
 				4A4D3BF922FE429B00E7DC64 /* AppDelegate.swift in Sources */,
+				55BB4A54232C474F008DDDEE /* VideoFramesOverlayGeneratorView.swift in Sources */,
 				4A516B3C22FF2C3300F09F3F /* ObservedItem.swift in Sources */,
+				55BB4A56232C5681008DDDEE /* DocumentPickerButton.swift in Sources */,
+				55BB4A5A232C74A4008DDDEE /* VideoFrameOverlayProcessor.swift in Sources */,
 				4A516B3822FF2BD600F09F3F /* ObservationSession.swift in Sources */,
 				4A4D3BFB22FE429B00E7DC64 /* SceneDelegate.swift in Sources */,
 				4A516B3422FF296600F09F3F /* Color.swift in Sources */,
