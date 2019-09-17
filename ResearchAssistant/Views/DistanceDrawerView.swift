@@ -35,12 +35,33 @@ struct DistanceDrawerView: View {
     @State private var drawingOne: Drawing = Drawing()
     @State private var drawingTwo: Drawing = Drawing()
 
+    @State var isAutoReplay: Bool = true
+    @State var isPlay: Bool = true
+    @State var isMute: Bool = false
+    
+    @State var processor: VideoFrameOverlayProcessor?
+    
+    
     var body: some View {
-        VStack(alignment: .center) {
+        VStack {
+            VideoPickerButton { videoURL in
+                self.processor = VideoFrameOverlayProcessor(videoFileURL: videoURL)
+            }
             Text("Distance 1: \(String(format: "%.1f", drawingOne.totalDistance))")
                 .font(.largeTitle)
             Text("Distance 2: \(String(format: "%.1f", drawingTwo.totalDistance))")
                 .font(.largeTitle)
+            
+            if processor?.url != nil {
+                VideoPlayerView(url: .constant(processor!.url), isPlay: $isPlay)
+                .autoReplay($isAutoReplay)
+                .mute($isMute)
+                .onPlayToEndTime { print("Play to the end time.") }
+                .onReplay { print("Replay after playing to the end.") }
+                .onStateChanged { _ in print("Playback status changes, such as from play to pause.") }
+            }
+            
+            
             DrawingPad(drawingOne: $drawingOne, drawingTwo: $drawingTwo)
         }
     }
