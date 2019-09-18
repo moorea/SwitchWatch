@@ -35,9 +35,9 @@ struct DistanceDrawerView: View {
     @State private var drawingOne: Drawing = Drawing()
     @State private var drawingTwo: Drawing = Drawing()
 
-    @State var isAutoReplay: Bool = true
+    @State var isAutoReplay: Bool = false
     @State var isPlay: Bool = true
-    @State var isMute: Bool = false
+    @State var isMute: Bool = true
     
     @State var processor: VideoFrameOverlayProcessor?
     
@@ -52,17 +52,18 @@ struct DistanceDrawerView: View {
             Text("Distance 2: \(String(format: "%.1f", drawingTwo.totalDistance))")
                 .font(.largeTitle)
             
-            if processor?.url != nil {
-                VideoPlayerView(url: .constant(processor!.url), isPlay: $isPlay)
-                .autoReplay($isAutoReplay)
-                .mute($isMute)
-                .onPlayToEndTime { print("Play to the end time.") }
-                .onReplay { print("Replay after playing to the end.") }
-                .onStateChanged { _ in print("Playback status changes, such as from play to pause.") }
+            ZStack (alignment: .top) {
+                if processor?.url != nil {
+                    VideoPlayerView(url: .constant(processor!.url), isPlay: $isPlay)
+                        .autoReplay($isAutoReplay)
+                        .mute($isMute)
+                        .onPlayToEndTime { print("Play to the end time.") }
+                        .onReplay { print("Replay after playing to the end.") }
+                        .onStateChanged { _ in print("Playback status changes, such as from play to pause.") }
+                }
+                
+                DrawingPad(drawingOne: $drawingOne, drawingTwo: $drawingTwo)
             }
-            
-            
-            DrawingPad(drawingOne: $drawingOne, drawingTwo: $drawingTwo)
         }
     }
 }
@@ -78,7 +79,7 @@ struct DrawingPad: View {
                 self.add(drawing: self.drawingTwo, toPath: &path)
             }
             .stroke(Color.black, lineWidth: 2.0)
-            .background(Color(white: 0.95))
+            .background(Color(hue: 0.0, saturation: 0.0, brightness: 0.0, opacity: 0.1))
             .gesture(
                 DragGesture(minimumDistance: 0.1)
                     .onChanged({ (value) in
