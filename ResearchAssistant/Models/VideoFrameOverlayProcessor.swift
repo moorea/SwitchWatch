@@ -13,8 +13,14 @@ import UIKit
 
 class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
     
-    let frameSampleSize = 2000
-    var combinedImage: UIImage?
+    let frameSampleSize = 1500
+    var combinedImage: UIImage? {
+        didSet {
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
+        }
+    }
     
     let objectWillChange = ObservableObjectPublisher()
     var id = UUID()
@@ -46,6 +52,7 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
         url = videoFileURL
         asset = AVURLAsset(url: url)
         videoTrack = asset.tracks(withMediaType: .video).first
+        objectWillChange.send()
     }
     
     func analyzeVideo(completion: ((URL?)->Void)?) {

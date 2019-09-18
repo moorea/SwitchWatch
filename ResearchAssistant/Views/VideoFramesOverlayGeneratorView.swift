@@ -7,10 +7,27 @@
 //
 
 import SwiftUI
+import Combine
 
 struct VideoFramesOverlayGeneratorView: View {
     
-    @State var processor: VideoFrameOverlayProcessor?
+    @State var videoURL: URL?
+
+    var body: some View {
+        VStack {
+            VideoPickerButton { videoURL in
+                self.videoURL = videoURL
+            }
+            
+            if self.videoURL != nil {
+                StackProgressView().environmentObject(VideoFrameOverlayProcessor(videoFileURL: self.videoURL!))
+            }
+        }
+    }
+}
+
+struct StackProgressView: View {
+    @EnvironmentObject var processor: VideoFrameOverlayProcessor
     @State var generatedImageURL: URL?
     let activityViewController = SwiftUIFileShareActivityViewController()
 
@@ -29,13 +46,14 @@ struct VideoFramesOverlayGeneratorView: View {
     
     var body: some View {
         VStack {
-            VideoPickerButton { videoURL in
-                self.processor = VideoFrameOverlayProcessor(videoFileURL: videoURL)
-            }
+            Text(processor.fileDetails)
             
-            Text(processor?.fileDetails ?? "")
+            if processor.combinedImage != nil {
+                Image(processor.combinedImage!.cgImage!, scale: CGFloat(2.0), label: Text("Stacked Image"))
+            }
+
             Button(action: {
-                self.processor?.analyzeVideo(completion: { generatedImageURL in
+                self.processor.analyzeVideo(completion: { generatedImageURL in
                     self.generatedImageURL = generatedImageURL
                 })
             }) {
@@ -43,16 +61,11 @@ struct VideoFramesOverlayGeneratorView: View {
                     Text("Analyze")
                 }
             }
-            
+
             if generatedImageURL != nil {
                 completeActions
             }
+            
         }
-    }
-}
-
-struct VideoFramesOverlayGeneratorView_Previews: PreviewProvider {
-    static var previews: some View {
-        VideoFramesOverlayGeneratorView()
     }
 }
