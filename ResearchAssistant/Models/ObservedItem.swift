@@ -104,11 +104,9 @@ class ObservedItem: ObservableObject, Identifiable {
         switch currentArea {
         case .areaA:
             transitions.append("\(id),IntoA,\(formattedElapsedTime)\n")
-            print("Item \(id) switching to A @ \(formattedElapsedTime)")
             break
         case .areaB:
             transitions.append("\(id),IntoB,\(formattedElapsedTime)\n")
-            print("Item \(id) switching to B @ \(formattedElapsedTime)")
             break
         }
     }
@@ -117,11 +115,9 @@ class ObservedItem: ObservableObject, Identifiable {
         switch currentArea {
         case .areaA:
             transitions.append("\(id),BeginInA,\(formattedElapsedTime)\n")
-            print("Item \(id) beginning in A @ \(formattedElapsedTime)")
             break
         case .areaB:
             transitions.append("\(id),BeginB,\(formattedElapsedTime)\n")
-            print("Item \(id) beginning in B @ \(formattedElapsedTime)")
             break
         }
     }
@@ -130,11 +126,9 @@ class ObservedItem: ObservableObject, Identifiable {
         switch currentArea {
         case .areaA:
             transitions.append("\(id),EndInA,\(formattedElapsedTime)\n")
-            print("Item \(id) ending in A @ \(formattedElapsedTime)")
             break
         case .areaB:
             transitions.append("\(id),EndB,\(formattedElapsedTime)\n")
-            print("Item \(id) ending in B @ \(formattedElapsedTime)")
             break
         }
     }

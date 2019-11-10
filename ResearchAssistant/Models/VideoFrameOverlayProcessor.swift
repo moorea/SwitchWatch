@@ -13,8 +13,22 @@ import UIKit
 
 class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
     
-    let frameSampleSize = 2000
-    var combinedImage: UIImage?
+    let frameSampleSize = 1500
+    var combinedImage: UIImage? {
+        didSet {
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
+        }
+    }
+    
+    var progress: String {
+        didSet {
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
+        }
+    }
     
     let objectWillChange = ObservableObjectPublisher()
     var id = UUID()
@@ -29,7 +43,6 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
             let fileSize = resources.fileSize!
             return fileSize
         } catch {
-            print("Error: \(error)")
             return 0
         }
     }
@@ -43,24 +56,24 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
     }
     
     init(videoFileURL: URL) {
+        progress = ""
         url = videoFileURL
         asset = AVURLAsset(url: url)
         videoTrack = asset.tracks(withMediaType: .video).first
+        objectWillChange.send()
     }
     
-    func analyzeVideo(completion: ((URL?)->Void)?) {
+    func analyzeVideo(duration: Double? = nil, completion: ((URL?)->Void)?) {
         
-        let videoDuration = asset.duration
+        let videoDurationSeconds = duration ?? asset.duration.seconds
         var sampleTimes: [NSValue] = []
-        let totalTimeLength = Int(videoDuration.seconds * Double(videoDuration.timescale))
+        let totalTimeLength = Int(videoDurationSeconds * Double(asset.duration.timescale))
         let step = totalTimeLength / frameSampleSize
         
         for i in 0 ..< frameSampleSize {
-            let cmTime = CMTimeMake(value: Int64(i * step), timescale: Int32(videoDuration.timescale))
+            let cmTime = CMTimeMake(value: Int64(i * step), timescale: Int32(asset.duration.timescale))
             sampleTimes.append(NSValue(time: cmTime))
         }
-        
-        print(sampleTimes)
         
         let generator = AVAssetImageGenerator(asset: asset)
         generator.requestedTimeToleranceAfter = .zero
@@ -70,23 +83,22 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
             guard error == nil, let image = image else {
                 return
             }
-            print("got a frame")
+
             if let firstRequestedTime = sampleTimes.first, firstRequestedTime == NSValue(time: requestedTime) {
                 self.combinedImage = UIImage(cgImage: image)
             }
             
+            self.progress = "Adding frame @ \(requestedTime.seconds) sec"
+            
             self.combinedImage = self.combine(imageOne: self.combinedImage, with: self.processByPixel(in: UIImage(cgImage: image))!)
             
             if let lastRequestedTime = sampleTimes.last, lastRequestedTime == NSValue(time: requestedTime) {
-                print("that's all folks")
                 let newFile = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("MyImage.png")
                 
                 do {
                     try self.combinedImage?.pngData()?.write(to: newFile!, options: [.atomic])
                     completion?(newFile)
                 } catch {
-                    print("Failed to create image file")
-                    print("\(error)")
                     completion?(nil)
                 }
             }
@@ -109,7 +121,7 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
     
     func processByPixel(in image: UIImage) -> UIImage? {
 
-        guard let inputCGImage = image.cgImage else { print("unable to get cgImage"); return nil }
+        guard let inputCGImage = image.cgImage else { return nil }
         let colorSpace       = CGColorSpaceCreateDeviceRGB()
         let width            = inputCGImage.width
         let height           = inputCGImage.height
@@ -119,11 +131,11 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
         let bitmapInfo       = RGBA32.bitmapInfo
 
         guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
-            print("Cannot create context!"); return nil
+            return nil
         }
         context.draw(inputCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
 
-        guard let buffer = context.data else { print("Cannot get context data!"); return nil }
+        guard let buffer = context.data else { return nil }
 
         let pixelBuffer = buffer.bindMemory(to: RGBA32.self, capacity: width * height)
 

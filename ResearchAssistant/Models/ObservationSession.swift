@@ -61,7 +61,6 @@ class ObservationSession: ObservableObject {
         timerElapsedTime = (currentTime - timerStartTime) * 10 / 10
         let roundedTimerElapsedTime = Double(String(format: "%.1f", timerElapsedTime)) ?? 0
         
-        print (roundedTimerElapsedTime.description)
         guard roundedTimerElapsedTime <= Double(duration) ?? 0 else {
             stop()
             return
@@ -108,8 +107,6 @@ class ObservationSession: ObservableObject {
             try statsCSV.write(to: statsFilePath!, atomically: true, encoding: String.Encoding.utf8)
             return [rawDataFilePath, statsFilePath]
         } catch {
-            print("Failed to create file")
-            print("\(error)")
             return nil
         }
     }
