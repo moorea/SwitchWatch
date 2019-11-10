@@ -34,7 +34,7 @@ struct DistanceDrawerView: View {
 
     @State private var isAutoReplay: Bool = false
     @State private var isPlay: Bool = true
-    @State private var isMute: Bool = true
+    @State private var isMute: Bool = false
     
     @State private var processor: VideoFrameOverlayProcessor?
     
@@ -94,7 +94,11 @@ struct DistanceDrawerView: View {
                     .font(.subheadline)
                 Text("Distance 2: \(String(format: "%.1f inches", drawingTwo.realWorldDistance(with: distanceRatio)))")
                     .font(.subheadline)
-                
+                Button(action: {
+                    self.isPlay.toggle()
+                }) {
+                    Text(self.isPlay ? "Pause" : "Play")
+                }
                 ZStack (alignment: .top) {
                     if processor?.url != nil {
                         VideoPlayerView(url: .constant(processor!.url), isPlay: $isPlay)
