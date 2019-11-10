@@ -53,12 +53,22 @@ struct StackProgressView: View {
             }
 
             Button(action: {
+                self.processor.analyzeVideo(duration: 300.0, completion: { generatedImageURL in
+                    self.generatedImageURL = generatedImageURL
+                })
+            }) {
+                HStack {
+                    Text("Analyze 5 min")
+                }
+            }
+            
+            Button(action: {
                 self.processor.analyzeVideo(completion: { generatedImageURL in
                     self.generatedImageURL = generatedImageURL
                 })
             }) {
                 HStack {
-                    Text("Analyze")
+                    Text("Analyze Full")
                 }
             }
 

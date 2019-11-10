@@ -55,15 +55,15 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
         objectWillChange.send()
     }
     
-    func analyzeVideo(completion: ((URL?)->Void)?) {
+    func analyzeVideo(duration: Double? = nil, completion: ((URL?)->Void)?) {
         
-        let videoDuration = asset.duration
+        let videoDurationSeconds = duration ?? asset.duration.seconds
         var sampleTimes: [NSValue] = []
-        let totalTimeLength = Int(videoDuration.seconds * Double(videoDuration.timescale))
+        let totalTimeLength = Int(videoDurationSeconds * Double(asset.duration.timescale))
         let step = totalTimeLength / frameSampleSize
         
         for i in 0 ..< frameSampleSize {
-            let cmTime = CMTimeMake(value: Int64(i * step), timescale: Int32(videoDuration.timescale))
+            let cmTime = CMTimeMake(value: Int64(i * step), timescale: Int32(asset.duration.timescale))
             sampleTimes.append(NSValue(time: cmTime))
         }
         
@@ -77,10 +77,12 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
             guard error == nil, let image = image else {
                 return
             }
-            print("got a frame")
+
             if let firstRequestedTime = sampleTimes.first, firstRequestedTime == NSValue(time: requestedTime) {
                 self.combinedImage = UIImage(cgImage: image)
             }
+            
+            print("got a frame @ \(NSValue(time: requestedTime))")
             
             self.combinedImage = self.combine(imageOne: self.combinedImage, with: self.processByPixel(in: UIImage(cgImage: image))!)
             
