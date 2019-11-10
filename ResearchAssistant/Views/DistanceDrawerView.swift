@@ -27,7 +27,7 @@ struct DistanceDrawerView: View {
     @State private var state: DistanceDrawingState = .selectingVideo
     
     @State private var calibrationDrawing: Drawing = Drawing()
-    @State private var calibrationDistance: String = "5"
+    @State private var calibrationDistance: String = "3"
     
     @State private var drawingOne: Drawing = Drawing()
     @State private var drawingTwo: Drawing = Drawing()
@@ -64,7 +64,7 @@ struct DistanceDrawerView: View {
                         TextField("#", text: $calibrationDistance)
                             .frame(width: 25, alignment: .center)
                             .keyboardType(.numberPad)
-                        Text("cm line")
+                        Text("inch line")
                         Spacer()
                         Button(action: {
                             guard let realWorldDistance = Float(self.calibrationDistance) else {
@@ -90,9 +90,9 @@ struct DistanceDrawerView: View {
             else if state == .observing {
                 Text("Step 3: Observe")
                     .font(.largeTitle)
-                Text("Distance 1: \(String(format: "%.1f cm", drawingOne.realWorldDistance(with: distanceRatio)))")
+                Text("Distance 1: \(String(format: "%.1f inches", drawingOne.realWorldDistance(with: distanceRatio)))")
                     .font(.subheadline)
-                Text("Distance 2: \(String(format: "%.1f cm", drawingTwo.realWorldDistance(with: distanceRatio)))")
+                Text("Distance 2: \(String(format: "%.1f inches", drawingTwo.realWorldDistance(with: distanceRatio)))")
                     .font(.subheadline)
                 
                 ZStack (alignment: .top) {
