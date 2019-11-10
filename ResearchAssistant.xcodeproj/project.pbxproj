@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A4010C223785CBA00F54650 /* Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4010C123785CBA00F54650 /* Drawing.swift */; };
 		4A4D3BF922FE429B00E7DC64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D3BF822FE429B00E7DC64 /* AppDelegate.swift */; };
 		4A4D3BFB22FE429B00E7DC64 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D3BFA22FE429B00E7DC64 /* SceneDelegate.swift */; };
 		4A4D3BFD22FE429B00E7DC64 /* ObservationSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D3BFC22FE429B00E7DC64 /* ObservationSessionView.swift */; };
@@ -48,6 +49,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4A4010C123785CBA00F54650 /* Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawing.swift; sourceTree = "<group>"; };
 		4A4D3BF522FE429B00E7DC64 /* Research.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Research.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A4D3BF822FE429B00E7DC64 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4A4D3BFA22FE429B00E7DC64 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				4A516B3722FF2BD600F09F3F /* ObservationSession.swift */,
 				4A516B3B22FF2C3300F09F3F /* ObservedItem.swift */,
 				55BB4A59232C74A4008DDDEE /* VideoFrameOverlayProcessor.swift */,
+				4A4010C123785CBA00F54650 /* Drawing.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				4A755B9F23319F59002DB6AA /* VideoLoadManager.swift in Sources */,
 				55BB4A5C232D987E008DDDEE /* DistanceDrawerView.swift in Sources */,
 				4A516B3422FF296600F09F3F /* Color.swift in Sources */,
+				4A4010C223785CBA00F54650 /* Drawing.swift in Sources */,
 				4A516B3E22FF2C7200F09F3F /* ObservedItemCard.swift in Sources */,
 				4A4D3BFD22FE429B00E7DC64 /* ObservationSessionView.swift in Sources */,
 				4A755B7E23319CA0002DB6AA /* VideoPlayerView.swift in Sources */,
