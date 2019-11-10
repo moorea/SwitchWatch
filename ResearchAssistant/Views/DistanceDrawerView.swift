@@ -79,7 +79,6 @@ struct DistanceDrawerView: View {
                     ZStack (alignment: .top) {
                         if processor?.url != nil {
                             VideoPlayerView(url: .constant(processor!.url), isPlay: .constant(true))
-                                .autoReplay(.constant(false))
                                 .mute(.constant(true))
                         }
                         
@@ -102,11 +101,7 @@ struct DistanceDrawerView: View {
                 ZStack (alignment: .top) {
                     if processor?.url != nil {
                         VideoPlayerView(url: .constant(processor!.url), isPlay: $isPlay)
-                            .autoReplay($isAutoReplay)
                             .mute($isMute)
-                            .onPlayToEndTime { print("Play to the end time.") }
-                            .onReplay { print("Replay after playing to the end.") }
-                            .onStateChanged { _ in print("Playback status changes, such as from play to pause.") }
                     }
                     
                     DrawingPad(drawingOne: $drawingOne, drawingTwo: $drawingTwo)
