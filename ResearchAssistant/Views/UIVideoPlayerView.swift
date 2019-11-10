@@ -153,7 +153,7 @@ extension UIVideoPlayerView {
         self.replayCount = 0
         self.isLoaded = false
         
-        if playerItem.isEnoughToPlay || url.isFileURL {
+        if url.isFileURL {
             state = .none
             isLoaded = true
             player.play()
@@ -263,12 +263,6 @@ private extension UIVideoPlayerView {
         playerBufferingObservation = playerItem.observe(\.loadedTimeRanges) { [unowned self] item, _ in
             if case .paused = self.state, self.pausedReason != .disappear {
                 self.state = .paused(reason: self.pausedReason, playProgress: self.playProgress, bufferProgress: self.bufferProgress)
-            }
-            
-            if self.bufferProgress >= 0.99 || (self.currentBufferDuration - self.currentDuration) > 3 {
-                VideoPreloadManager.shared.start()
-            } else {
-                VideoPreloadManager.shared.pause()
             }
         }
         

@@ -46,35 +46,7 @@ extension AVPlayerItem {
         return urlString.replacingOccurrences(of: AVPlayerItem.loaderPrefix, with: "").url
     }
     
-    var isEnoughToPlay: Bool {
-        guard
-            let url = url,
-            let configuration = try? VideoCacheManager.shared.cachedConfiguration(for: url)
-            else { return false }
-        
-        return configuration.downloadedByteCount >= 1024 * 768
-    }
-    
     convenience init(loader url: URL) {
-        if url.isFileURL {
-            self.init(url: url)
-            return
-        }
-        
-        guard let loaderURL = (AVPlayerItem.loaderPrefix + url.absoluteString).url else {
-            VideoLoadManager.shared.reportError?(NSError(
-                domain: "me.gesen.player.loader",
-                code: -1,
-                userInfo: [NSLocalizedDescriptionKey: "Wrong url \(url.absoluteString)，unable to initialize Loader"]
-            ))
-            self.init(url: url)
-            return
-        }
-        
-        let urlAsset = AVURLAsset(url: loaderURL)
-        urlAsset.resourceLoader.setDelegate(VideoLoadManager.shared, queue: .main)
-        
-        self.init(asset: urlAsset)
+        self.init(url: url)
     }
-    
 }

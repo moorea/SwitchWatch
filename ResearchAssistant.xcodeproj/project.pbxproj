@@ -28,19 +28,6 @@
 		4A755B8B23319E04002DB6AA /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755B8A23319E04002DB6AA /* String+Extensions.swift */; };
 		4A755B8D23319E33002DB6AA /* AVPlayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755B8C23319E33002DB6AA /* AVPlayer+Extensions.swift */; };
 		4A755B8F23319E69002DB6AA /* AVAssetResourceLoadingRequest+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755B8E23319E69002DB6AA /* AVAssetResourceLoadingRequest+Extensions.swift */; };
-		4A755B9223319EB2002DB6AA /* VideoCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755B9123319EB2002DB6AA /* VideoCacheManager.swift */; };
-		4A755B9423319EC3002DB6AA /* VideoCacheHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755B9323319EC3002DB6AA /* VideoCacheHandler.swift */; };
-		4A755B9623319ED6002DB6AA /* VideoCacheConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755B9523319ED6002DB6AA /* VideoCacheConfiguration.swift */; };
-		4A755B9823319EE9002DB6AA /* VideoCacheAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755B9723319EE9002DB6AA /* VideoCacheAction.swift */; };
-		4A755B9B23319F29002DB6AA /* VideoRequestLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755B9A23319F29002DB6AA /* VideoRequestLoader.swift */; };
-		4A755B9D23319F46002DB6AA /* VideoPreloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755B9C23319F46002DB6AA /* VideoPreloadManager.swift */; };
-		4A755B9F23319F59002DB6AA /* VideoLoadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755B9E23319F59002DB6AA /* VideoLoadManager.swift */; };
-		4A755BA123319F68002DB6AA /* VideoLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755BA023319F68002DB6AA /* VideoLoader.swift */; };
-		4A755BA323319F75002DB6AA /* VideoInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755BA223319F75002DB6AA /* VideoInfo.swift */; };
-		4A755BA623319FA6002DB6AA /* VideoDownloadInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755BA523319FA6002DB6AA /* VideoDownloadInfo.swift */; };
-		4A755BA823319FB3002DB6AA /* VideoDownloaderSessionDelegateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755BA723319FB3002DB6AA /* VideoDownloaderSessionDelegateHandler.swift */; };
-		4A755BAA23319FC9002DB6AA /* VideoDownloaderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755BA923319FC9002DB6AA /* VideoDownloaderHandler.swift */; };
-		4A755BAC23319FEF002DB6AA /* VideoDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755BAB23319FEF002DB6AA /* VideoDownloader.swift */; };
 		55BB4A52232C4022008DDDEE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB4A51232C4022008DDDEE /* HomeView.swift */; };
 		55BB4A54232C474F008DDDEE /* VideoFramesOverlayGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB4A53232C474F008DDDEE /* VideoFramesOverlayGeneratorView.swift */; };
 		55BB4A56232C5681008DDDEE /* DocumentPickerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB4A55232C5681008DDDEE /* DocumentPickerButton.swift */; };
@@ -73,19 +60,6 @@
 		4A755B8A23319E04002DB6AA /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		4A755B8C23319E33002DB6AA /* AVPlayer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Extensions.swift"; sourceTree = "<group>"; };
 		4A755B8E23319E69002DB6AA /* AVAssetResourceLoadingRequest+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAssetResourceLoadingRequest+Extensions.swift"; sourceTree = "<group>"; };
-		4A755B9123319EB2002DB6AA /* VideoCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCacheManager.swift; sourceTree = "<group>"; };
-		4A755B9323319EC3002DB6AA /* VideoCacheHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCacheHandler.swift; sourceTree = "<group>"; };
-		4A755B9523319ED6002DB6AA /* VideoCacheConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCacheConfiguration.swift; sourceTree = "<group>"; };
-		4A755B9723319EE9002DB6AA /* VideoCacheAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCacheAction.swift; sourceTree = "<group>"; };
-		4A755B9A23319F29002DB6AA /* VideoRequestLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRequestLoader.swift; sourceTree = "<group>"; };
-		4A755B9C23319F46002DB6AA /* VideoPreloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreloadManager.swift; sourceTree = "<group>"; };
-		4A755B9E23319F59002DB6AA /* VideoLoadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoLoadManager.swift; sourceTree = "<group>"; };
-		4A755BA023319F68002DB6AA /* VideoLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoLoader.swift; sourceTree = "<group>"; };
-		4A755BA223319F75002DB6AA /* VideoInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoInfo.swift; sourceTree = "<group>"; };
-		4A755BA523319FA6002DB6AA /* VideoDownloadInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDownloadInfo.swift; sourceTree = "<group>"; };
-		4A755BA723319FB3002DB6AA /* VideoDownloaderSessionDelegateHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDownloaderSessionDelegateHandler.swift; sourceTree = "<group>"; };
-		4A755BA923319FC9002DB6AA /* VideoDownloaderHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDownloaderHandler.swift; sourceTree = "<group>"; };
-		4A755BAB23319FEF002DB6AA /* VideoDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDownloader.swift; sourceTree = "<group>"; };
 		55BB4A51232C4022008DDDEE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		55BB4A53232C474F008DDDEE /* VideoFramesOverlayGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFramesOverlayGeneratorView.swift; sourceTree = "<group>"; };
 		55BB4A55232C5681008DDDEE /* DocumentPickerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerButton.swift; sourceTree = "<group>"; };
@@ -188,48 +162,11 @@
 		4A755B8523319DA9002DB6AA /* VideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				4A755BA423319F9B002DB6AA /* Download */,
-				4A755B9923319F16002DB6AA /* Loader */,
-				4A755B9023319E9C002DB6AA /* Cache */,
 				4A755B8623319DCA002DB6AA /* AVPlayerItem+Extensions.swift */,
 				4A755B8C23319E33002DB6AA /* AVPlayer+Extensions.swift */,
 				4A755B8E23319E69002DB6AA /* AVAssetResourceLoadingRequest+Extensions.swift */,
 			);
 			path = VideoPlayer;
-			sourceTree = "<group>";
-		};
-		4A755B9023319E9C002DB6AA /* Cache */ = {
-			isa = PBXGroup;
-			children = (
-				4A755B9123319EB2002DB6AA /* VideoCacheManager.swift */,
-				4A755B9323319EC3002DB6AA /* VideoCacheHandler.swift */,
-				4A755B9523319ED6002DB6AA /* VideoCacheConfiguration.swift */,
-				4A755B9723319EE9002DB6AA /* VideoCacheAction.swift */,
-			);
-			path = Cache;
-			sourceTree = "<group>";
-		};
-		4A755B9923319F16002DB6AA /* Loader */ = {
-			isa = PBXGroup;
-			children = (
-				4A755B9A23319F29002DB6AA /* VideoRequestLoader.swift */,
-				4A755B9C23319F46002DB6AA /* VideoPreloadManager.swift */,
-				4A755B9E23319F59002DB6AA /* VideoLoadManager.swift */,
-				4A755BA023319F68002DB6AA /* VideoLoader.swift */,
-				4A755BA223319F75002DB6AA /* VideoInfo.swift */,
-			);
-			path = Loader;
-			sourceTree = "<group>";
-		};
-		4A755BA423319F9B002DB6AA /* Download */ = {
-			isa = PBXGroup;
-			children = (
-				4A755BA523319FA6002DB6AA /* VideoDownloadInfo.swift */,
-				4A755BA723319FB3002DB6AA /* VideoDownloaderSessionDelegateHandler.swift */,
-				4A755BA923319FC9002DB6AA /* VideoDownloaderHandler.swift */,
-				4A755BAB23319FEF002DB6AA /* VideoDownloader.swift */,
-			);
-			path = Download;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -304,35 +241,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A755B8B23319E04002DB6AA /* String+Extensions.swift in Sources */,
-				4A755BAC23319FEF002DB6AA /* VideoDownloader.swift in Sources */,
-				4A755B9D23319F46002DB6AA /* VideoPreloadManager.swift in Sources */,
-				4A755B9223319EB2002DB6AA /* VideoCacheManager.swift in Sources */,
-				4A755BAA23319FC9002DB6AA /* VideoDownloaderHandler.swift in Sources */,
 				4A755B8723319DCA002DB6AA /* AVPlayerItem+Extensions.swift in Sources */,
 				4A755B8F23319E69002DB6AA /* AVAssetResourceLoadingRequest+Extensions.swift in Sources */,
 				4A755B8923319DEB002DB6AA /* Int+Extensions.swift in Sources */,
 				55BB4A52232C4022008DDDEE /* HomeView.swift in Sources */,
-				4A755B9623319ED6002DB6AA /* VideoCacheConfiguration.swift in Sources */,
-				4A755BA123319F68002DB6AA /* VideoLoader.swift in Sources */,
 				4A516B3122FE665B00F09F3F /* Sharing.swift in Sources */,
 				4A755B8223319D78002DB6AA /* Float+Extensions.swift in Sources */,
 				4A755B8D23319E33002DB6AA /* AVPlayer+Extensions.swift in Sources */,
 				4A4D3BF922FE429B00E7DC64 /* AppDelegate.swift in Sources */,
-				4A755BA623319FA6002DB6AA /* VideoDownloadInfo.swift in Sources */,
 				55BB4A54232C474F008DDDEE /* VideoFramesOverlayGeneratorView.swift in Sources */,
-				4A755B9423319EC3002DB6AA /* VideoCacheHandler.swift in Sources */,
 				4A755B8423319D90002DB6AA /* Double+Extensions.swift in Sources */,
 				4A516B3C22FF2C3300F09F3F /* ObservedItem.swift in Sources */,
-				4A755BA323319F75002DB6AA /* VideoInfo.swift in Sources */,
 				55BB4A56232C5681008DDDEE /* DocumentPickerButton.swift in Sources */,
-				4A755B9823319EE9002DB6AA /* VideoCacheAction.swift in Sources */,
 				55BB4A5A232C74A4008DDDEE /* VideoFrameOverlayProcessor.swift in Sources */,
 				4A755B8023319CC4002DB6AA /* UIVideoPlayerView.swift in Sources */,
-				4A755BA823319FB3002DB6AA /* VideoDownloaderSessionDelegateHandler.swift in Sources */,
 				4A516B3822FF2BD600F09F3F /* ObservationSession.swift in Sources */,
 				4A4D3BFB22FE429B00E7DC64 /* SceneDelegate.swift in Sources */,
-				4A755B9B23319F29002DB6AA /* VideoRequestLoader.swift in Sources */,
-				4A755B9F23319F59002DB6AA /* VideoLoadManager.swift in Sources */,
 				55BB4A5C232D987E008DDDEE /* DistanceDrawerView.swift in Sources */,
 				4A516B3422FF296600F09F3F /* Color.swift in Sources */,
 				4A4010C223785CBA00F54650 /* Drawing.swift in Sources */,
