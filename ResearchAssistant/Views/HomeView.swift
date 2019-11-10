@@ -17,7 +17,7 @@ struct HomeView: View {
                     VStack(alignment: .leading) {
                         Text("SwitchWatch")
                             .font(.headline)
-                        Text("Record state transitions over time.")
+                        Text("Record state transitions over time")
                             .font(.subheadline)
                     }
                 }
@@ -26,7 +26,7 @@ struct HomeView: View {
                     VStack(alignment: .leading) {
                         Text("Video Frames Overlay")
                             .font(.headline)
-                        Text("Overlay frames of a video on top of one another.")
+                        Text("Stack frames of a video on top of one another")
                             .font(.subheadline)
                     }
                 }
@@ -40,7 +40,7 @@ struct HomeView: View {
                     }
                 }
             }
-            .navigationBarTitle("Home", displayMode: .large)
+            .navigationBarTitle("Tools", displayMode: .large)
         }
     }
 }

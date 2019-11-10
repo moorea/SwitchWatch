@@ -16,15 +16,6 @@ public extension AVPlayer {
         currentItem?.currentDuration ?? -1
     }
     
-    var currentImage: UIImage? {
-        guard
-            let playerItem = currentItem,
-            let cgImage = try? AVAssetImageGenerator(asset: playerItem.asset).copyCGImage(at: currentTime(), actualTime: nil)
-            else { return nil }
-        
-        return UIImage(cgImage: cgImage)
-    }
-    
     var playProgress: Double {
         currentItem?.playProgress ?? -1
     }
@@ -32,9 +23,4 @@ public extension AVPlayer {
     var totalDuration: Double {
         currentItem?.totalDuration ?? -1
     }
-    
-    convenience init(asset: AVURLAsset) {
-        self.init(playerItem: AVPlayerItem(asset: asset))
-    }
-    
 }
