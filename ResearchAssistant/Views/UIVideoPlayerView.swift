@@ -58,17 +58,7 @@ public class UIVideoPlayerView: UIView {
     public var currentDuration: Double {
         isLoaded ? player?.currentDuration ?? 0 : 0
     }
-    
-    /// Buffered progress, value range 0-1.
-    public var bufferProgress: Double {
-        isLoaded ? player?.bufferProgress ?? 0 : 0
-    }
-    
-    /// Buffered length in seconds.
-    public var currentBufferDuration: Double {
-        isLoaded ? player?.currentBufferDuration ?? 0 : 0
-    }
-    
+
     /// Total video duration in seconds.
     public var totalDuration: Double {
         isLoaded ? player?.totalDuration ?? 0 : 0
@@ -144,7 +134,7 @@ extension UIVideoPlayerView {
         let player = AVPlayer()
         player.automaticallyWaitsToMinimizeStalling = false
         
-        let playerItem = AVPlayerItem(loader: url)
+        let playerItem = AVPlayerItem(url: url)
         playerItem.canUseNetworkResourcesForLiveStreamingWhilePaused = true
         
         self.player = player
@@ -235,7 +225,7 @@ private extension UIVideoPlayerView {
             switch player.timeControlStatus {
             case .paused:
                 if self.isReplay { break }
-                self.state = .paused(reason: self.pausedReason, playProgress: self.playProgress, bufferProgress: self.bufferProgress)
+                self.state = .paused(reason: self.pausedReason, playProgress: self.playProgress)
                 if self.pausedReason == .waitingKeepUp { player.play() }
             case .waitingToPlayAtSpecifiedRate:
                 break
@@ -262,7 +252,7 @@ private extension UIVideoPlayerView {
         
         playerBufferingObservation = playerItem.observe(\.loadedTimeRanges) { [unowned self] item, _ in
             if case .paused = self.state, self.pausedReason != .disappear {
-                self.state = .paused(reason: self.pausedReason, playProgress: self.playProgress, bufferProgress: self.bufferProgress)
+                self.state = .paused(reason: self.pausedReason, playProgress: self.playProgress)
             }
         }
         
@@ -311,8 +301,8 @@ extension VideoPlayerView.State: Equatable {
             return true
         case (.playing, .playing):
             return true
-        case let (.paused(r1, p1, b1), .paused(r2, p2, b2)):
-            return (r1 == r2) && (p1 == p2) && (b1 == b2)
+        case let (.paused(r1, p1), .paused(r2, p2)):
+            return (r1 == r2) && (p1 == p2)
         case let (.error(e1), .error(e2)):
             return e1 == e2
         default:

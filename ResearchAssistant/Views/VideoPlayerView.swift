@@ -22,8 +22,8 @@ public struct VideoPlayerView: UIViewRepresentable {
         /// Playing now
         case playing
         
-        /// Pause, will be called repeatedly when the buffer progress changes
-        case paused(reason: PausedReason, playProgress: Double, bufferProgress: Double)
+        /// Pause
+        case paused(reason: PausedReason, playProgress: Double)
         
         /// An error occurred and cannot continue playing
         case error(NSError)

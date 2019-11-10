@@ -12,14 +12,6 @@ import UIKit
 
 public extension AVPlayer {
     
-    var bufferProgress: Double {
-        currentItem?.bufferProgress ?? -1
-    }
-    
-    var currentBufferDuration: Double {
-        currentItem?.currentBufferDuration ?? -1
-    }
-    
     var currentDuration: Double {
         currentItem?.currentDuration ?? -1
     }
