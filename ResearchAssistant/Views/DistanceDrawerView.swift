@@ -60,9 +60,9 @@ struct DistanceDrawerView: View {
                     Text("Step 2: Calibrate")
                         .font(.largeTitle)
                     HStack {
-                        Text("Drawing a ")
+                        Text("Draw a ")
                         TextField("#", text: $calibrationDistance)
-                            .frame(width: 50, alignment: .center)
+                            .frame(width: 25, alignment: .center)
                             .keyboardType(.numberPad)
                         Text("cm line")
                         Spacer()
