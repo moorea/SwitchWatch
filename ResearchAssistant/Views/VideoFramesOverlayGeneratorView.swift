@@ -15,12 +15,6 @@ struct VideoFramesOverlayGeneratorView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5.0) {
-            HStack {
-                Text("Video Stacker")
-                    .font(.largeTitle)
-                Spacer()
-            }
-            
             VideoPickerButton { videoURL in
                 self.videoURL = videoURL
             }
@@ -31,6 +25,7 @@ struct VideoFramesOverlayGeneratorView: View {
             Spacer()
         }
         .padding()
+        .navigationBarTitle("Frame Overlayer", displayMode: .inline)
     }
 }
 

@@ -45,7 +45,7 @@ struct DistanceDrawerView: View {
             if state == .selectingVideo {
                 HStack {
                     Text("Step 1: Select Video")
-                        .font(.largeTitle)
+                        .font(.title)
                     Spacer()
                 }
                 
@@ -58,7 +58,7 @@ struct DistanceDrawerView: View {
             else if state == .calibrating {
                 VStack(alignment: .leading, spacing: 4.0) {
                     Text("Step 2: Calibrate")
-                        .font(.largeTitle)
+                        .font(.title)
                     HStack {
                         Text("Draw a ")
                         TextField("#", text: $calibrationDistance)
@@ -89,7 +89,7 @@ struct DistanceDrawerView: View {
             }
             else if state == .observing {
                 Text("Step 3: Observe")
-                    .font(.largeTitle)
+                    .font(.title)
                 Text("Distance 1: \(String(format: "%.1f inches", drawingOne.realWorldDistance(with: distanceRatio)))")
                     .font(.subheadline)
                 Text("Distance 2: \(String(format: "%.1f inches", drawingTwo.realWorldDistance(with: distanceRatio)))")
@@ -114,6 +114,7 @@ struct DistanceDrawerView: View {
             }
         }
         .padding()
+        .navigationBarTitle("Distance Draw", displayMode: .inline)
     }
 }
 
