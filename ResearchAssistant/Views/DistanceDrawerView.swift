@@ -166,17 +166,21 @@ struct DrawingPad: View {
                     .onChanged({ (value) in
                         let currentPoint = value.location
                         if currentPoint.y >= 0 && currentPoint.y < geometry.size.height {
+                            // Start line one if not already started
                             guard let mostRecentOne = self.drawingOne.points.last else {
                                 self.drawingOne.points.append(currentPoint)
                                 return
                             }
+                            
                             let distanceToOne = mostRecentOne.distance(to: currentPoint)
                             
-                            guard distanceToOne > 200 else {
+                            if distanceToOne < 50 {
                                 self.drawingOne.points.append(currentPoint)
                                 return
                             }
                             
+                            
+                            //Start line two if tapping farther than 50 px from line one for first time
                             guard let mostRecentTwo = self.drawingTwo.points.last else {
                                 self.drawingTwo.points.append(currentPoint)
                                 return
@@ -184,7 +188,7 @@ struct DrawingPad: View {
                             
                             let distanceToTwo = mostRecentTwo.distance(to: currentPoint)
 
-                            guard distanceToTwo > 200 else {
+                            if distanceToTwo < 50 {
                                 self.drawingTwo.points.append(currentPoint)
                                 return
                             }
