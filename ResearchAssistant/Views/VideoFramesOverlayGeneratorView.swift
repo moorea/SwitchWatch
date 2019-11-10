@@ -14,7 +14,13 @@ struct VideoFramesOverlayGeneratorView: View {
     @State var videoURL: URL?
 
     var body: some View {
-        VStack {
+        VStack(alignment: .leading, spacing: 5.0) {
+            HStack {
+                Text("Video Stacker")
+                    .font(.largeTitle)
+                Spacer()
+            }
+            
             VideoPickerButton { videoURL in
                 self.videoURL = videoURL
             }
@@ -22,7 +28,9 @@ struct VideoFramesOverlayGeneratorView: View {
             if self.videoURL != nil {
                 StackProgressView().environmentObject(VideoFrameOverlayProcessor(videoFileURL: self.videoURL!))
             }
+            Spacer()
         }
+        .padding()
     }
 }
 
@@ -45,37 +53,37 @@ struct StackProgressView: View {
     }
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading, spacing: 5.0) {
             Text(processor.fileDetails)
             
             if processor.combinedImage != nil {
+                Text(processor.progress)
                 Image(processor.combinedImage!.cgImage!, scale: CGFloat(2.0), label: Text("Stacked Image"))
-            }
-
-            Button(action: {
-                self.processor.analyzeVideo(duration: 300.0, completion: { generatedImageURL in
-                    self.generatedImageURL = generatedImageURL
-                })
-            }) {
-                HStack {
-                    Text("Analyze 5 min")
-                }
+            } else {
+                Button(action: {
+                    self.processor.analyzeVideo(duration: 300.0, completion: { generatedImageURL in
+                        self.generatedImageURL = generatedImageURL
+                    })
+                }) {
+                    HStack {
+                        Text("Analyze 5 min")
+                    }
+                }.padding()
+                
+                Button(action: {
+                    self.processor.analyzeVideo(completion: { generatedImageURL in
+                        self.generatedImageURL = generatedImageURL
+                    })
+                }) {
+                    HStack {
+                        Text("Analyze Full")
+                    }
+                }.padding()
             }
             
-            Button(action: {
-                self.processor.analyzeVideo(completion: { generatedImageURL in
-                    self.generatedImageURL = generatedImageURL
-                })
-            }) {
-                HStack {
-                    Text("Analyze Full")
-                }
-            }
-
             if generatedImageURL != nil {
                 completeActions
             }
-            
         }
     }
 }

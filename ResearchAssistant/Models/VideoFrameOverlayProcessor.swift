@@ -22,6 +22,14 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
         }
     }
     
+    var progress: String {
+        didSet {
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
+        }
+    }
+    
     let objectWillChange = ObservableObjectPublisher()
     var id = UUID()
     
@@ -49,6 +57,7 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
     }
     
     init(videoFileURL: URL) {
+        progress = ""
         url = videoFileURL
         asset = AVURLAsset(url: url)
         videoTrack = asset.tracks(withMediaType: .video).first
@@ -82,7 +91,7 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
                 self.combinedImage = UIImage(cgImage: image)
             }
             
-            print("got a frame @ \(NSValue(time: requestedTime))")
+            self.progress = "Adding frame @ \(requestedTime.seconds) sec"
             
             self.combinedImage = self.combine(imageOne: self.combinedImage, with: self.processByPixel(in: UIImage(cgImage: image))!)
             
