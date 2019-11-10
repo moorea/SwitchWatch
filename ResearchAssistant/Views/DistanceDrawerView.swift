@@ -121,7 +121,7 @@ struct CalibrationPad: View {
             Path { path in
                 self.add(drawing: self.drawing, toPath: &path)
             }
-            .stroke(Color.black, lineWidth: 2.0)
+            .stroke(Color.red, lineWidth: 2.0)
             .background(Color(hue: 0.0, saturation: 0.0, brightness: 0.0, opacity: 0.1))
             .gesture(
                 DragGesture(minimumDistance: 0.1)
