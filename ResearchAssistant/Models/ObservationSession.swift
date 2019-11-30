@@ -28,7 +28,7 @@ class ObservationSession: ObservableObject {
     private var timerElapsedTime: TimeInterval = 0
 
     @Published private(set) var items: [ObservedItem] = []
-    @Published private(set) var state: SessionState = .notBegun
+    @Published var state: SessionState = .notBegun
     
     init(groupName: String = "", trialNumber: String = "", trialDayNumber: String = "") {
         self.groupName = groupName
@@ -53,6 +53,18 @@ class ObservationSession: ObservableObject {
         state = .running
     }
     
+    func stop() {
+        timer?.invalidate()
+        items.forEach { $0.stop() }
+        state = .complete
+    }
+    
+    func reset() {
+        items = []
+        groupName = ""
+        state = .notBegun
+    }
+    
     @objc private func timerHasTicked(timer: Timer) {
         
         let currentTime = Date.timeIntervalSinceReferenceDate
@@ -65,18 +77,6 @@ class ObservationSession: ObservableObject {
         }
         
         items.forEach { $0.update(with: timerElapsedTime) }
-    }
-    
-    func stop() {
-        timer?.invalidate()
-        items.forEach { $0.stop() }
-        state = .complete
-    }
-    
-    func reset() {
-        items = []
-        groupName = ""
-        state = .notBegun
     }
     
     func export() -> [URL?]? {
