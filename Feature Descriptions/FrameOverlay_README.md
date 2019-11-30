@@ -20,5 +20,5 @@ As each frame is processed, any pixel of the frame that does not meet a certain 
 
 |                          Setup                           |                           Complete                           |
 | :------------------------------------------------------: | :----------------------------------------------------------: |
-| <img src="./Overlay_Setup.png" width="375" height="812"> | <img src="./Overlay_Complete.jpeg" width="375" height="812"> |
+| <img src="./Overlay_Setup.PNG" width="375" height="812"> | <img src="./Overlay_Complete.jpeg" width="375" height="812"> |
 

@@ -25,7 +25,7 @@ For example:
 
 |                            Setup                             |                           Complete                           |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <img src="./SwitchWatch_SessionSetup.png" width="375" height="812"> | <img src="./SwitchWatch_ActiveSession.gif" width="375" height="812"> |
+| <img src="./SwitchWatch_SessionSetup.PNG" width="375" height="812"> | <img src="./SwitchWatch_ActiveSession.gif" width="375" height="812"> |
 
 ## Example Data Export
 
