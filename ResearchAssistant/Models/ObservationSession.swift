@@ -16,19 +16,19 @@ enum SessionState {
 }
 
 class ObservationSession: ObservableObject {
-    let objectWillChange = ObservableObjectPublisher()
+
     var groupName: String
     var trialNumber: String
     var trialDayNumber: String
     var duration: String = "300"
     
-    private var timer: Timer?
     private let tickInterval: TimeInterval = 0.5
+    private var timer: Timer?
     private var timerStartTime: TimeInterval = 0
     private var timerElapsedTime: TimeInterval = 0
 
-    private(set) var items: [ObservedItem] = []
-    private(set) var state: SessionState = .notBegun
+    @Published private(set) var items: [ObservedItem] = []
+    @Published private(set) var state: SessionState = .notBegun
     
     init(groupName: String = "", trialNumber: String = "", trialDayNumber: String = "") {
         self.groupName = groupName
@@ -38,7 +38,6 @@ class ObservationSession: ObservableObject {
     
     func addItem(id: String) {
         items.append(ObservedItem(id: id))
-        objectWillChange.send()
     }
     
     func start() {
@@ -52,7 +51,6 @@ class ObservationSession: ObservableObject {
         items.forEach { $0.start(at: timerStartTime) }
         
         state = .running
-        objectWillChange.send()
     }
     
     @objc private func timerHasTicked(timer: Timer) {
@@ -67,22 +65,18 @@ class ObservationSession: ObservableObject {
         }
         
         items.forEach { $0.update(with: timerElapsedTime) }
-
-        objectWillChange.send()
     }
     
     func stop() {
         timer?.invalidate()
         items.forEach { $0.stop() }
         state = .complete
-        objectWillChange.send()
     }
     
     func reset() {
         items = []
         groupName = ""
         state = .notBegun
-        objectWillChange.send()
     }
     
     func export() -> [URL?]? {
