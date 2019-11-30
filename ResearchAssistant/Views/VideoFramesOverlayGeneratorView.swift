@@ -15,11 +15,13 @@ struct VideoFramesOverlayGeneratorView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5.0) {
-            VideoPickerButton { videoURL in
-                self.videoURL = videoURL
-            }
             
-            if self.videoURL != nil {
+            if self.videoURL == nil {
+                VideoPickerButton { videoURL in
+                    self.videoURL = videoURL
+                }
+                .padding([.top], 10)
+            } else {
                 StackProgressView().environmentObject(VideoFrameOverlayProcessor(videoFileURL: self.videoURL!))
             }
             Spacer()
@@ -49,7 +51,14 @@ struct StackProgressView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 5.0) {
+            HStack {
+                Text("Selected File Details")
+                    .font(.title)
+                Spacer()
+            }
+            .padding([.top, .bottom], 10)
             Text(processor.fileDetails)
+            
             
             if processor.combinedImage != nil {
                 Text(processor.progress)
@@ -61,9 +70,13 @@ struct StackProgressView: View {
                     })
                 }) {
                     HStack {
-                        Text("Analyze 5 min")
+                        Spacer()
+                        Text("Analyze 5 min").foregroundColor(.white)
+                        Spacer()
                     }
-                }.padding()
+                }
+                .boldRoundedBackground(with: .blue)
+                .padding()
                 
                 Button(action: {
                     self.processor.analyzeVideo(completion: { generatedImageURL in
@@ -71,7 +84,9 @@ struct StackProgressView: View {
                     })
                 }) {
                     HStack {
+                        Spacer()
                         Text("Analyze Full")
+                        Spacer()
                     }
                 }.padding()
             }
