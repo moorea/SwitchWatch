@@ -19,10 +19,17 @@ struct VideoPickerButton: View {
             self.isPresented = true
         }) {
             HStack {
-                Image(systemName: "folder").scaledToFit()
+                Spacer()
+                Image(systemName: "folder")
+                    .foregroundColor(.white)
+                    .scaledToFit()
                 Text("Select a video")
+                    .foregroundColor(.white)
+                Spacer()
             }
-        }.sheet(isPresented: $isPresented) { () -> VideoPickerViewController in
+        }
+        .boldRoundedBackground(with: .blue)
+        .sheet(isPresented: $isPresented) { () -> VideoPickerViewController in
             VideoPickerViewController { selectedFileURL in
                 guard let url = selectedFileURL else {
                     return
