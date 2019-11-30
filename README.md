@@ -6,52 +6,22 @@
 
 A variety of utilities to aid research projects.
 
-## Screenshots
-Setup Observation            |  Completed Observation
-:-------------------------:|:-------------------------:
-<img src="https://github.com/moorea/SwitchWatch/blob/master/Images/SessionStart.png" width="375" height="667">  |  <img src="https://github.com/moorea/SwitchWatch/blob/master/Images/SessionComplete.png" width="375" height="667">
-
 ## App Features
 
-- [x] Input Group Name, Trial Number, and Trial Day for an observation session
-- [x] Configure multiple items to observe simultaneously
-- [x] After beginning an observation, toggle an item to record a transition and swap that item's active timer
-- [x] Export data
-- [x] Automatically end a observation session after a pre-set amount of time
+<img src="./Feature Descriptions/Home.jpeg" width="375" height="812">
 
-## Potential Future Features
-- [ ] Ability to save/edit previous observation sessions
-- [ ] Prettier UI
-
-
-## Example Data Export
-
-After completing an observation session, tap "share" to export two files.
-
-### raw_transition_times.csv
-
-As the name suggests, this file contains all the raw data recorded from every tap of every toggle throughout the session. Importing into excel/sheets/numbers looks something like:
-
-<img src="https://github.com/moorea/SwitchWatch/blob/master/Images/RawDataTable.png" width="425" height="500"> 
-
-### stats.csv
-
-This file provides the rolled-up stats for each item during the observation session:
-
-![StatsTable](https://github.com/moorea/SwitchWatch/blob/master/Images/StatsTable.png)
-
+- [SwitchWatch](./Feature Descriptions/SwitchWatch_README.md) (Record state transitions over time)
+- [Video Frame Overlay](./Feature Descriptions/FrameOverlay_README.md) (Stack frames of a video on top of one another)
+- Distance Draw (Measure distance by dragging)
 
 ## Requirements
 
 - iOS 13.0+
-- Xcode 11
-- macOS Catalina
 
 ## Installation
 
 1. Fork this repository
 2. Build and deploy
-3. Congratulations!  
 
 ## Contribute
 
