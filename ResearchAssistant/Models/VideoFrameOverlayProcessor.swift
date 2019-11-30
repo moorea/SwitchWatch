@@ -71,12 +71,17 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
             }
 
             if let firstRequestedTime = sampleTimes.first, firstRequestedTime == NSValue(time: requestedTime) {
-                self.combinedImage = UIImage(cgImage: image)
+                DispatchQueue.main.async {
+                    self.combinedImage = UIImage(cgImage: image)
+                }
             }
             
-            self.progress = "Adding frame @ \(requestedTime.seconds) sec"
+            let newCombinedImage = self.combine(imageOne: self.combinedImage, with: self.processByPixel(in: UIImage(cgImage: image))!)
             
-            self.combinedImage = self.combine(imageOne: self.combinedImage, with: self.processByPixel(in: UIImage(cgImage: image))!)
+            DispatchQueue.main.async {
+                self.progress = "Adding frame @ \(requestedTime.seconds) sec"
+                self.combinedImage = newCombinedImage
+            }
             
             if let lastRequestedTime = sampleTimes.last, lastRequestedTime == NSValue(time: requestedTime) {
                 let newFile = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("MyImage.png")
