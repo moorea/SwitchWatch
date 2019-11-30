@@ -70,13 +70,16 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
                 return
             }
 
+            var currentCombinedImage = self.combinedImage
             if let firstRequestedTime = sampleTimes.first, firstRequestedTime == NSValue(time: requestedTime) {
+                currentCombinedImage = UIImage(cgImage: image)
+                
                 DispatchQueue.main.async {
-                    self.combinedImage = UIImage(cgImage: image)
+                    self.combinedImage = currentCombinedImage
                 }
             }
             
-            let newCombinedImage = self.combine(imageOne: self.combinedImage, with: self.processByPixel(in: UIImage(cgImage: image))!)
+            let newCombinedImage = self.combine(imageOne: currentCombinedImage, with: self.processByPixel(in: UIImage(cgImage: image))!)
             
             DispatchQueue.main.async {
                 self.progress = "Adding frame @ \(requestedTime.seconds) sec"
