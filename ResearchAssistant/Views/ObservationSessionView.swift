@@ -128,6 +128,9 @@ struct ObservationSessionView: View {
             .frame(width: geometry.size.width)
         }
         .navigationBarTitle("SwitchWatch", displayMode: .inline)
+        .onAppear {
+            self.session.reset()
+        }
     }
 }
 
