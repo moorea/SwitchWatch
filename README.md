@@ -12,7 +12,7 @@ A variety of utilities to aid research projects.
 
 - [SwitchWatch](./Feature%20Descriptions/SwitchWatch_README.md) (Record state transitions over time)
 - [Video Frame Overlay](./Feature%20Descriptions/FrameOverlay_README.md) (Stack frames of a video on top of one another)
-- Distance Draw (Measure distance by dragging)
+- [Distance Draw](./Feature%20Descriptions/DistanceDraw_README.md) (Measure distance by dragging)
 
 ## Requirements
 
