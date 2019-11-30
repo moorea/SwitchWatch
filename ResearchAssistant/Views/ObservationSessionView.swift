@@ -20,44 +20,70 @@ struct ObservationSessionView: View {
                 Text("Group:")
                 TextField("e.g. - family_a", text: self.$session.groupName)
             }
+            Divider()
             HStack {
-                Text("Trial #:")
+                Text("Trial:")
                 TextField("e.g. - 1", text: self.$session.trialNumber)
             }
+            Divider()
             HStack {
-                Text("Day #:")
+                Text("Day:")
                 TextField("e.g. - 2", text: self.$session.trialDayNumber)
             }
+            Divider()
             HStack {
                 Text("Duration (sec):")
                 TextField("e.g. - 300", text: self.$session.duration)
+                
             }
             Divider()
         }
+        .padding([.bottom], 16)
     }
     
     var itemCards: some View {
         ForEach(Array(stride(from: 0, to: self.session.items.count, by: 2)), id: \.self) { index in
-            HStack {
-                ObservedItemCard(item: self.session.items[index])
-                if index + 1 < self.session.items.count {
-                    ObservedItemCard(item: self.session.items[index+1])
-                } else {
-                    Spacer()
+            HStack(alignment: .center) {
+                VStack {
+                    ObservedItemCard(item: self.session.items[index])
                 }
+                .frame(minWidth: 0, maxWidth: .infinity)
+                
+                VStack {
+                    if index + 1 < self.session.items.count {
+                        ObservedItemCard(item: self.session.items[index+1])
+                    }
+                }
+                .frame(minWidth: 0, maxWidth: .infinity)
             }
         }
     }
     
     var notBegunActions: some View {
         VStack {
-            Button(action: { self.session.addItem(id: "") }) { Text("Add Item").frame(width: 200) }.padding()
-            Button(action: self.session.start) { Text("Begin Observation") }.padding()
+            Button(action: { self.session.addItem(id: "") }) {
+                Spacer()
+                Text("Add Item").foregroundColor(.white)
+                Spacer()
+            }
+            .boldRoundedBackground(with: .blue)
+            .padding([.top, .bottom], 10)
+            
+            Button(action: self.session.start) {
+                Text("Begin Observation")
+            }
+            .padding([.top, .bottom], 10)
         }
     }
     
     var runningActions: some View {
-        Button(action: { self.session.stop() }) { Text("End Observation") }.padding()
+        Button(action: { self.session.stop() }) {
+            Spacer()
+            Text("End Observation").foregroundColor(.white)
+            Spacer()
+        }
+        .boldRoundedBackground(with: .red)
+        .padding([.top, .bottom], 10)
     }
     
     var completeActions: some View {
@@ -65,12 +91,22 @@ struct ObservationSessionView: View {
             Button(action: {
                 self.activityViewController.shareFiles(fileURLs: self.session.export())
             }) {
+                
                 ZStack {
-                    Text("Share")
+                    HStack{
+                        Spacer()
+                        Image(systemName: "square.and.arrow.up").foregroundColor(.white)
+                        Text("Share").foregroundColor(.white)
+                        Spacer()
+                    }
+                    
                     self.activityViewController
                 }
-            }.frame(width: 60, height: 60)
-            Button(action: { self.session.reset() }) { Text("Start Over") }.padding()
+            }
+            .boldRoundedBackground(with: .blue)
+            .padding([.top, .bottom], 10)
+            
+            Button(action: { self.session.reset() }) { Text("Start Over") }.padding([.top, .bottom], 10)
         }
     }
     
@@ -88,10 +124,13 @@ struct ObservationSessionView: View {
                     self.completeActions
                 }
             }
+            .padding()
             .frame(width: geometry.size.width)
         }
-        .padding()
         .navigationBarTitle("SwitchWatch", displayMode: .inline)
+        .onAppear {
+            self.session.reset()
+        }
     }
 }
 

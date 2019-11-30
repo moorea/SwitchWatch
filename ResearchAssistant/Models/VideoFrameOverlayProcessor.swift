@@ -13,24 +13,11 @@ import UIKit
 
 class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
     
-    let frameSampleSize = 1500
-    var combinedImage: UIImage? {
-        didSet {
-            DispatchQueue.main.async {
-                self.objectWillChange.send()
-            }
-        }
-    }
+    private let defaultFrameSampleSize = 1500
     
-    var progress: String {
-        didSet {
-            DispatchQueue.main.async {
-                self.objectWillChange.send()
-            }
-        }
-    }
+    @Published var combinedImage: UIImage?
+    @Published var progress: String
     
-    let objectWillChange = ObservableObjectPublisher()
     var id = UUID()
     
     let url: URL
@@ -60,17 +47,23 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
         url = videoFileURL
         asset = AVURLAsset(url: url)
         videoTrack = asset.tracks(withMediaType: .video).first
-        objectWillChange.send()
+    }
+    func analyzeVideo(completion: ((URL?)->Void)?) {
+        analyzeVideo(requestedDurationToAnalyze: asset.duration.seconds, completion: completion)
     }
     
-    func analyzeVideo(duration: Double? = nil, completion: ((URL?)->Void)?) {
+    func analyzeVideo(requestedDurationToAnalyze: Double, completion: ((URL?)->Void)?) {
         
-        let videoDurationSeconds = duration ?? asset.duration.seconds
+        let totalFrames = Int(asset.duration.seconds * Double(videoTrack?.nominalFrameRate ?? 0.0))
+        let sampleSize = defaultFrameSampleSize > totalFrames ? totalFrames : defaultFrameSampleSize
+        
+        let secondsToAnalyze = requestedDurationToAnalyze > asset.duration.seconds ? asset.duration.seconds : requestedDurationToAnalyze
+        
         var sampleTimes: [NSValue] = []
-        let totalTimeLength = Int(videoDurationSeconds * Double(asset.duration.timescale))
-        let step = totalTimeLength / frameSampleSize
+        let totalTimeLength = Int(secondsToAnalyze * Double(asset.duration.timescale))
+        let step = totalTimeLength / sampleSize
         
-        for i in 0 ..< frameSampleSize {
+        for i in 0 ..< sampleSize {
             let cmTime = CMTimeMake(value: Int64(i * step), timescale: Int32(asset.duration.timescale))
             sampleTimes.append(NSValue(time: cmTime))
         }
@@ -84,13 +77,21 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
                 return
             }
 
+            var currentCombinedImage = self.combinedImage
             if let firstRequestedTime = sampleTimes.first, firstRequestedTime == NSValue(time: requestedTime) {
-                self.combinedImage = UIImage(cgImage: image)
+                currentCombinedImage = UIImage(cgImage: image)
+                
+                DispatchQueue.main.async {
+                    self.combinedImage = currentCombinedImage
+                }
             }
             
-            self.progress = "Adding frame @ \(requestedTime.seconds) sec"
+            let newCombinedImage = self.combine(imageOne: currentCombinedImage, with: self.processByPixel(in: UIImage(cgImage: image))!)
             
-            self.combinedImage = self.combine(imageOne: self.combinedImage, with: self.processByPixel(in: UIImage(cgImage: image))!)
+            DispatchQueue.main.async {
+                self.progress = "Adding frame @ \(requestedTime.seconds) sec"
+                self.combinedImage = newCombinedImage
+            }
             
             if let lastRequestedTime = sampleTimes.last, lastRequestedTime == NSValue(time: requestedTime) {
                 let newFile = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("MyImage.png")

@@ -15,11 +15,13 @@ struct VideoFramesOverlayGeneratorView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5.0) {
-            VideoPickerButton { videoURL in
-                self.videoURL = videoURL
-            }
             
-            if self.videoURL != nil {
+            if self.videoURL == nil {
+                VideoPickerButton { videoURL in
+                    self.videoURL = videoURL
+                }
+                .padding([.top], 10)
+            } else {
                 StackProgressView().environmentObject(VideoFrameOverlayProcessor(videoFileURL: self.videoURL!))
             }
             Spacer()
@@ -49,21 +51,34 @@ struct StackProgressView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 5.0) {
-            Text(processor.fileDetails)
+            HStack {
+                Text("File Details")
+                    .font(.title)
+                Spacer()
+            }
+            .padding([.bottom], 10)
             
-            if processor.combinedImage != nil {
-                Text(processor.progress)
-                Image(processor.combinedImage!.cgImage!, scale: CGFloat(2.0), label: Text("Stacked Image"))
+            Text(self.processor.fileDetails)
+            
+            if self.processor.combinedImage != nil {
+                Text(self.processor.progress)
+                Image(self.processor.combinedImage!.cgImage!, scale: CGFloat(2.0), label: Text("Stacked Image"))
+                    .resizable()
+                    .aspectRatio(CGFloat(self.processor.combinedImage!.size.width) / CGFloat(self.processor.combinedImage!.size.height), contentMode: .fit)
             } else {
                 Button(action: {
-                    self.processor.analyzeVideo(duration: 300.0, completion: { generatedImageURL in
+                    self.processor.analyzeVideo(requestedDurationToAnalyze: 300.0) { generatedImageURL in
                         self.generatedImageURL = generatedImageURL
-                    })
+                    }
                 }) {
                     HStack {
-                        Text("Analyze 5 min")
+                        Spacer()
+                        Text("Analyze 5 min").foregroundColor(.white)
+                        Spacer()
                     }
-                }.padding()
+                }
+                .boldRoundedBackground(with: .blue)
+                .padding()
                 
                 Button(action: {
                     self.processor.analyzeVideo(completion: { generatedImageURL in
@@ -71,13 +86,15 @@ struct StackProgressView: View {
                     })
                 }) {
                     HStack {
+                        Spacer()
                         Text("Analyze Full")
+                        Spacer()
                     }
                 }.padding()
             }
             
-            if generatedImageURL != nil {
-                completeActions
+            if self.generatedImageURL != nil {
+                self.completeActions
             }
         }
     }

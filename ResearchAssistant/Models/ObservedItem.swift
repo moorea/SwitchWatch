@@ -15,13 +15,13 @@ enum CurrentArea: Int {
 }
 
 class ObservedItem: ObservableObject, Identifiable {
-    let objectWillChange = ObservableObjectPublisher()
     var id: String
     
     private var transitions: [String] = []
     
+    @Published private var timerElapsedTime: TimeInterval = 0
+
     private var timerStartTime: TimeInterval = 0
-    private var timerElapsedTime: TimeInterval = 0
     private var areaOneElapsedTime: TimeInterval = 0
     private var areaTwoElapsedTime: TimeInterval = 0
 
@@ -68,7 +68,6 @@ class ObservedItem: ObservableObject, Identifiable {
         let tickInterval = elapsedTime - timerElapsedTime
 
         timerElapsedTime = elapsedTime
-        objectWillChange.send()
         
         switch currentArea {
         case .areaA:

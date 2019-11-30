@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A3CFF902392DCE6008513F4 /* BoldRoundedBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3CFF8F2392DCE6008513F4 /* BoldRoundedBackgroundModifier.swift */; };
 		4A4010C223785CBA00F54650 /* Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4010C123785CBA00F54650 /* Drawing.swift */; };
 		4A4D3BF922FE429B00E7DC64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D3BF822FE429B00E7DC64 /* AppDelegate.swift */; };
 		4A4D3BFB22FE429B00E7DC64 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D3BFA22FE429B00E7DC64 /* SceneDelegate.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4A3CFF8F2392DCE6008513F4 /* BoldRoundedBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoldRoundedBackgroundModifier.swift; sourceTree = "<group>"; };
 		4A4010C123785CBA00F54650 /* Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawing.swift; sourceTree = "<group>"; };
 		4A4D3BF522FE429B00E7DC64 /* Research.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Research.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A4D3BF822FE429B00E7DC64 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +78,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A3CFF8E2392DCD1008513F4 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				4A3CFF8F2392DCE6008513F4 /* BoldRoundedBackgroundModifier.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
 		4A4D3BEC22FE429B00E7DC64 = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +144,7 @@
 		4A516B3522FF2BBC00F09F3F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4A3CFF8E2392DCD1008513F4 /* Modifiers */,
 				4A4D3BFC22FE429B00E7DC64 /* ObservationSessionView.swift */,
 				4A516B3D22FF2C7200F09F3F /* ObservedItemCard.swift */,
 				4A516B3022FE665B00F09F3F /* Sharing.swift */,
@@ -234,6 +245,7 @@
 				4A755B8923319DEB002DB6AA /* Int+Extensions.swift in Sources */,
 				55BB4A52232C4022008DDDEE /* HomeView.swift in Sources */,
 				4A516B3122FE665B00F09F3F /* Sharing.swift in Sources */,
+				4A3CFF902392DCE6008513F4 /* BoldRoundedBackgroundModifier.swift in Sources */,
 				4A755B8223319D78002DB6AA /* Float+Extensions.swift in Sources */,
 				4A755B8D23319E33002DB6AA /* AVPlayer+Extensions.swift in Sources */,
 				4A4D3BF922FE429B00E7DC64 /* AppDelegate.swift in Sources */,

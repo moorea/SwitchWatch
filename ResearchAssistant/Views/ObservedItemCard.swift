@@ -31,7 +31,9 @@ struct ObservedItemCard: View {
             }
             .padding(8)
         }
-        .background(Color.tileBackground)
+        .background(Rectangle()
+        .cornerRadius(8)
+        .foregroundColor(Color.tileBackground))
     }
 }
 
