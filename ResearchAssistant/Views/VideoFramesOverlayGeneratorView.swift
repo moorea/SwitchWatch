@@ -52,17 +52,19 @@ struct StackProgressView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 5.0) {
             HStack {
-                Text("Selected File Details")
+                Text("File Details")
                     .font(.title)
                 Spacer()
             }
-            .padding([.top, .bottom], 10)
-            Text(processor.fileDetails)
+            .padding([.bottom], 10)
             
+            Text(self.processor.fileDetails)
             
-            if processor.combinedImage != nil {
-                Text(processor.progress)
-                Image(processor.combinedImage!.cgImage!, scale: CGFloat(2.0), label: Text("Stacked Image"))
+            if self.processor.combinedImage != nil {
+                Text(self.processor.progress)
+                Image(self.processor.combinedImage!.cgImage!, scale: CGFloat(2.0), label: Text("Stacked Image"))
+                    .resizable()
+                    .aspectRatio(CGFloat(self.processor.combinedImage!.size.width) / CGFloat(self.processor.combinedImage!.size.height), contentMode: .fit)
             } else {
                 Button(action: {
                     self.processor.analyzeVideo(duration: 300.0, completion: { generatedImageURL in
@@ -91,8 +93,8 @@ struct StackProgressView: View {
                 }.padding()
             }
             
-            if generatedImageURL != nil {
-                completeActions
+            if self.generatedImageURL != nil {
+                self.completeActions
             }
         }
     }
