@@ -28,7 +28,7 @@ class ObservationSession: ObservableObject {
     private var timerElapsedTime: TimeInterval = 0
 
     @Published private(set) var items: [ObservedItem] = []
-    @Published var state: SessionState = .notBegun
+    @Published private(set) var state: SessionState = .notBegun
     
     init(groupName: String = "", trialNumber: String = "", trialDayNumber: String = "") {
         self.groupName = groupName

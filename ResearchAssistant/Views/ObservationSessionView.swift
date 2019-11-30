@@ -142,7 +142,6 @@ struct ContentView_Previews: PreviewProvider {
         session.addItem(id: "1")
         session.addItem(id: "2")
         session.addItem(id: "")
-        session.state = .complete
         return session
     }
     
