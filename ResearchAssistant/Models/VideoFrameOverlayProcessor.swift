@@ -13,7 +13,7 @@ import UIKit
 
 class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
     
-    let frameSampleSize = 1500
+    private let defaultFrameSampleSize = 1500
     
     @Published var combinedImage: UIImage?
     @Published var progress: String
@@ -48,15 +48,22 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
         asset = AVURLAsset(url: url)
         videoTrack = asset.tracks(withMediaType: .video).first
     }
+    func analyzeVideo(completion: ((URL?)->Void)?) {
+        analyzeVideo(requestedDurationToAnalyze: asset.duration.seconds, completion: completion)
+    }
     
-    func analyzeVideo(duration: Double? = nil, completion: ((URL?)->Void)?) {
+    func analyzeVideo(requestedDurationToAnalyze: Double, completion: ((URL?)->Void)?) {
         
-        let videoDurationSeconds = duration ?? asset.duration.seconds
+        let totalFrames = Int(asset.duration.seconds * Double(videoTrack?.nominalFrameRate ?? 0.0))
+        let sampleSize = defaultFrameSampleSize > totalFrames ? totalFrames : defaultFrameSampleSize
+        
+        let secondsToAnalyze = requestedDurationToAnalyze > asset.duration.seconds ? asset.duration.seconds : requestedDurationToAnalyze
+        
         var sampleTimes: [NSValue] = []
-        let totalTimeLength = Int(videoDurationSeconds * Double(asset.duration.timescale))
-        let step = totalTimeLength / frameSampleSize
+        let totalTimeLength = Int(secondsToAnalyze * Double(asset.duration.timescale))
+        let step = totalTimeLength / sampleSize
         
-        for i in 0 ..< frameSampleSize {
+        for i in 0 ..< sampleSize {
             let cmTime = CMTimeMake(value: Int64(i * step), timescale: Int32(asset.duration.timescale))
             sampleTimes.append(NSValue(time: cmTime))
         }

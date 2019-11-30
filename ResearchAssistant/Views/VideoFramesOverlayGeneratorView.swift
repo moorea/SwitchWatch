@@ -67,9 +67,9 @@ struct StackProgressView: View {
                     .aspectRatio(CGFloat(self.processor.combinedImage!.size.width) / CGFloat(self.processor.combinedImage!.size.height), contentMode: .fit)
             } else {
                 Button(action: {
-                    self.processor.analyzeVideo(duration: 300.0, completion: { generatedImageURL in
+                    self.processor.analyzeVideo(requestedDurationToAnalyze: 300.0) { generatedImageURL in
                         self.generatedImageURL = generatedImageURL
-                    })
+                    }
                 }) {
                     HStack {
                         Spacer()
