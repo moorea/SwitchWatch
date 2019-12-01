@@ -1,1 +1,1 @@
-
+A variety of utilities to help with research projects data collection and analysis.
