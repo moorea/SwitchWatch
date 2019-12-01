@@ -4,7 +4,7 @@
 [![License][license-image]][license-url] 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-A variety of utilities to aid research projects.
+A variety of utilities I threw together to help my wife with her undergraduate research projects.
 
 ## App Features
 
@@ -24,6 +24,8 @@ A variety of utilities to aid research projects.
 ## Contribute
 
 I'd love for you to make a contribution if you think you can make it more useful for your purposes, check the ``LICENSE`` file for more info.
+
+Note: This codebase is mostly a playground. This isn't particularly high-quality code.
 
 ## Meta
 
