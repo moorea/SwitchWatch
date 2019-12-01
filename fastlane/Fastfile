@@ -1,6 +1,8 @@
 
 default_platform(:ios)
 
+ENV["DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS"] = "-t DAV"
+
 platform :ios do
 
   desc "Deploy a new version to the App Store"
