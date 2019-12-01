@@ -38,7 +38,7 @@
 /* Begin PBXFileReference section */
 		4A3CFF8F2392DCE6008513F4 /* BoldRoundedBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoldRoundedBackgroundModifier.swift; sourceTree = "<group>"; };
 		4A4010C123785CBA00F54650 /* Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawing.swift; sourceTree = "<group>"; };
-		4A4D3BF522FE429B00E7DC64 /* Research.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Research.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A4D3BF522FE429B00E7DC64 /* Research Assistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Research Assistant.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A4D3BF822FE429B00E7DC64 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4A4D3BFA22FE429B00E7DC64 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		4A4D3BFC22FE429B00E7DC64 /* ObservationSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationSessionView.swift; sourceTree = "<group>"; };
@@ -97,7 +97,7 @@
 		4A4D3BF622FE429B00E7DC64 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4A4D3BF522FE429B00E7DC64 /* Research.app */,
+				4A4D3BF522FE429B00E7DC64 /* Research Assistant.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -186,7 +186,7 @@
 			);
 			name = ResearchAssistant;
 			productName = SwitchWatch;
-			productReference = 4A4D3BF522FE429B00E7DC64 /* Research.app */;
+			productReference = 4A4D3BF522FE429B00E7DC64 /* Research Assistant.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -410,7 +410,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.moore.ResearchAssistant;
-				PRODUCT_NAME = Research;
+				PRODUCT_NAME = "Research Assistant";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -435,7 +435,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.moore.ResearchAssistant;
-				PRODUCT_NAME = Research;
+				PRODUCT_NAME = "Research Assistant";
 				PROVISIONING_PROFILE_SPECIFIER = "Research Assistant AppStore Profile";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SUPPORTS_MACCATALYST = NO;
