@@ -128,7 +128,7 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
     }
     
     func processByPixel(in image: UIImage) -> UIImage? {
-
+        let startTime = CFAbsoluteTimeGetCurrent()
         guard let inputCGImage = image.cgImage else {
             return nil
         }
