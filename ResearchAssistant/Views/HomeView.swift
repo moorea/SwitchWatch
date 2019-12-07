@@ -42,6 +42,7 @@ struct HomeView: View {
             }
             .navigationBarTitle("Tools", displayMode: .large)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
