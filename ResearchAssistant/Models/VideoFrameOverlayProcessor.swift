@@ -71,6 +71,10 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
         let generator = AVAssetImageGenerator(asset: asset)
         generator.requestedTimeToleranceAfter = .zero
         generator.requestedTimeToleranceBefore = .zero
+        if let naturalSize = videoTrack?.naturalSize {
+            generator.maximumSize = CGSize(width: naturalSize.width / 1.5, height: naturalSize.height / 1.5)
+        }
+        
         generator.generateCGImagesAsynchronously(forTimes: sampleTimes) { (requestedTime, image, time2, result, error) in
             
             guard error == nil, let image = image else {
@@ -108,6 +112,7 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
     
     func combine(imageOne: UIImage?, with imageTwo: UIImage) -> UIImage {
         
+        let startTime = CFAbsoluteTimeGetCurrent()
         let size = CGSize(width: imageTwo.size.width, height: imageTwo.size.height)
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         
@@ -116,6 +121,8 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
 
         let newCombinedImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
+        let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
+        print("Combining image took \(timeElapsed) s.")
         
         return newCombinedImage
     }
@@ -166,6 +173,9 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
         let outputCGImage = context.makeImage()!
         let outputImage = UIImage(cgImage: outputCGImage, scale: image.scale, orientation: image.imageOrientation)
 
+        let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
+        print("Cleaning image took \(timeElapsed) s.")
+        
         return outputImage
     }
     
