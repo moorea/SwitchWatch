@@ -122,16 +122,27 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
     
     func processByPixel(in image: UIImage) -> UIImage? {
 
-        guard let inputCGImage = image.cgImage else { return nil }
-        let colorSpace       = CGColorSpaceCreateDeviceRGB()
-        let width            = inputCGImage.width
-        let height           = inputCGImage.height
-        let bytesPerPixel    = 4
+        guard let inputCGImage = image.cgImage else {
+            return nil
+        }
+        
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let width = inputCGImage.width
+        let height = inputCGImage.height
+        let bytesPerPixel = 4
         let bitsPerComponent = 8
-        let bytesPerRow      = bytesPerPixel * width
-        let bitmapInfo       = RGBA32.bitmapInfo
+        let bytesPerRow = bytesPerPixel * width
+        let bitmapInfo = RGBA32.bitmapInfo
 
-        guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
+        guard let context =
+            CGContext(
+                data: nil,
+                width: width,
+                height: height,
+                bitsPerComponent: bitsPerComponent,
+                bytesPerRow: bytesPerRow,
+                space: colorSpace,
+                bitmapInfo: bitmapInfo) else {
             return nil
         }
         context.draw(inputCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
@@ -143,16 +154,10 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
         for row in 0 ..< Int(height) {
             for column in 0 ..< Int(width) {
                 let offset = row * width + column
-
-               /*
-                 * Here I'm looking for color : RGBA32(red: 231, green: 239, blue: 247, alpha: 255)
-                 * and I will convert pixels color that in range of above color to transparent
-                 * so comparetion can done like this (pixelColorRedComp >= ourColorRedComp - 1 && pixelColorRedComp <= ourColorRedComp + 1 && green && blue)
-                 */
-
+                
                 if pixelBuffer[offset].redComponent >  50 ||
                     pixelBuffer[offset].greenComponent >  50 ||
-                    pixelBuffer[offset].blueComponent > 50  {
+                    pixelBuffer[offset].blueComponent > 50 {
                     pixelBuffer[offset] = .transparent
                 }
             }
@@ -165,6 +170,14 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
     }
     
     struct RGBA32: Equatable {
+        
+        static let transparent = RGBA32(red: 0, green: 0, blue: 0, alpha: 0)
+        static let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Little.rawValue
+
+        static func ==(lhs: RGBA32, rhs: RGBA32) -> Bool {
+            return lhs.color == rhs.color
+        }
+        
         private var color: UInt32
 
         var redComponent: UInt8 {
@@ -184,27 +197,11 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
         }
 
         init(red: UInt8, green: UInt8, blue: UInt8, alpha: UInt8) {
-            let red   = UInt32(red)
+            let red = UInt32(red)
             let green = UInt32(green)
-            let blue  = UInt32(blue)
+            let blue = UInt32(blue)
             let alpha = UInt32(alpha)
             color = (red << 24) | (green << 16) | (blue << 8) | (alpha << 0)
-        }
-
-        static let red     = RGBA32(red: 255, green: 0,   blue: 0,   alpha: 255)
-        static let green   = RGBA32(red: 0,   green: 255, blue: 0,   alpha: 255)
-        static let blue    = RGBA32(red: 0,   green: 0,   blue: 255, alpha: 255)
-        static let white   = RGBA32(red: 255, green: 255, blue: 255, alpha: 255)
-        static let black   = RGBA32(red: 0,   green: 0,   blue: 0,   alpha: 255)
-        static let magenta = RGBA32(red: 255, green: 0,   blue: 255, alpha: 255)
-        static let yellow  = RGBA32(red: 255, green: 255, blue: 0,   alpha: 255)
-        static let cyan    = RGBA32(red: 0,   green: 255, blue: 255, alpha: 255)
-        static let transparent = RGBA32(red: 0,   green: 0, blue: 0, alpha: 0)
-
-        static let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Little.rawValue
-
-        static func ==(lhs: RGBA32, rhs: RGBA32) -> Bool {
-            return lhs.color == rhs.color
         }
     }
 }
