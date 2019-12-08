@@ -23,5 +23,6 @@ struct BoldRoundedBackgroundModifier: ViewModifier {
             .padding()
             .background(Rectangle().foregroundColor(color))
             .cornerRadius(10.0)
+            .frame(height: 49.0)
     }
 }

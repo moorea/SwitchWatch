@@ -11,65 +11,95 @@ import AVFoundation
 import Combine
 import UIKit
 
+enum AnalysisState: CustomStringConvertible {
+    case notStarted
+    case inProgress
+    case cancelled
+    case complete
+    
+    var hasStoppedRunning: Bool {
+        switch self {
+        case .notStarted, .inProgress:
+            return false
+        case .cancelled, .complete:
+            return true
+        }
+    }
+    
+    var description: String {
+        switch self {
+        case .notStarted:
+            return "Not Started"
+        case .inProgress:
+            return "In-progress"
+        case .cancelled:
+            return "Cancelled"
+        case .complete:
+            return "Complete"
+        }
+    }
+}
+
 class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
     
     private let defaultFrameSampleSize = 1500
+    private let asset: AVURLAsset
+    private let videoTrack: AVAssetTrack?
     
     @Published var combinedImage: UIImage?
     @Published var progress: String
     
     var id = UUID()
     var generator: AVAssetImageGenerator?
-    var cancellingPendingGeneratedImages: Bool = false
     
+    // TODO: Make this private?
     let url: URL
-    let asset: AVURLAsset
-    let videoTrack: AVAssetTrack?
+    var fileDetails: String? = "Unknown"
+    var fileSizeInBytes: Int? = nil
     
-    var fileSizeInBytes: Int {
-        do {
-            let resources = try url.resourceValues(forKeys:[.fileSizeKey])
-            let fileSize = resources.fileSize!
-            return fileSize
-        } catch {
-            return 0
+    var analysisState: AnalysisState = .notStarted {
+        didSet {
+            switch analysisState {
+            case .cancelled:
+                generator?.cancelAllCGImageGeneration()
+            default:
+                print("analysisState changed to \(analysisState.description)")
+            }
         }
     }
-    
-    var fileDetails: String
     
     init(videoFileURL: URL) {
         progress = ""
         url = videoFileURL
         asset = AVURLAsset(url: url)
         videoTrack = asset.tracks(withMediaType: .video).first
-        
+        extractFileMetadata()
+    }
+    
+    private func extractFileMetadata() {
         do {
             let resources = try url.resourceValues(forKeys:[.fileSizeKey])
-            let fileSize = resources.fileSize!
-            
+            fileSizeInBytes = resources.fileSize
+
+            guard let fileSizeInBytes = fileSizeInBytes else {
+                return
+            }
             fileDetails = "Name: \(url.absoluteURL.lastPathComponent)\n" +
-                "Size: \(String(format: "%.1f", (Double(fileSize) / 1000000.0))) MB\n" +
+                "Size: \(String(format: "%.1f", (Double(fileSizeInBytes) / 1000000.0))) MB\n" +
                 "Frame Rate: \(Int((videoTrack?.nominalFrameRate ?? 0.0).rounded())) fps\n" +
                 "Duration: \(String(format: "%.1f", asset.duration.seconds)) sec\n" +
                 "Total frames: \(Int(asset.duration.seconds * Double(videoTrack?.nominalFrameRate ?? 0.0))) \n"
-            
         } catch {
-            assertionFailure("Bad File")
             fileDetails = "Error Loading File"
         }
     }
     
-    func cancelVideoAnalysis() {
-        generator?.cancelAllCGImageGeneration()
-        cancellingPendingGeneratedImages = true
+    func analyzeVideo() {
+        analyzeVideo(requestedDurationToAnalyze: asset.duration.seconds)
     }
     
-    func analyzeVideo(completion: ((URL?)->Void)?) {
-        analyzeVideo(requestedDurationToAnalyze: asset.duration.seconds, completion: completion)
-    }
-    
-    func analyzeVideo(requestedDurationToAnalyze: Double, completion: ((URL?)->Void)?) {
+    func analyzeVideo(requestedDurationToAnalyze: Double) {
+        analysisState = .inProgress
         
         let totalFrames = Int(asset.duration.seconds * Double(videoTrack?.nominalFrameRate ?? 0.0))
         let sampleSize = defaultFrameSampleSize > totalFrames ? totalFrames : defaultFrameSampleSize
@@ -92,22 +122,27 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
             generator?.maximumSize = CGSize(width: naturalSize.width / 1.5, height: naturalSize.height / 1.5)
         }
         
-        generator?.generateCGImagesAsynchronously(forTimes: sampleTimes) { [weak self] (requestedTime, image, time2, result, error) in
+        generator?.generateCGImagesAsynchronously(forTimes: sampleTimes) { [weak self] (requestedTime, image, actualTime, result, error) in
             
-            print("got an image. result: \(result.rawValue)")
+            print("Received image from actualTime: \(actualTime). Result: \(result.rawValue)")
+            
             guard result == AVAssetImageGenerator.Result.succeeded else {
+                print("Analysis has been cancelled or errored. Skipping frame analysis.")
                 return
             }
+            
             guard error == nil, let image = image else {
+                print("Received an error or missing image. Skipping frame analysis.")
                 return
             }
             
             guard let strongSelf = self else {
+                print("Referenece to self has been lost. Skipping frame analysis.")
                 return
             }
             
-            guard !strongSelf.cancellingPendingGeneratedImages else {
-                print("short circuit")
+            guard strongSelf.analysisState != .cancelled else {
+                print("Analysis has been cancelled. Skipping frame analysis.")
                 return
             }
 
@@ -115,6 +150,7 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
             if let firstRequestedTime = sampleTimes.first, firstRequestedTime == NSValue(time: requestedTime) {
                 currentCombinedImage = UIImage(cgImage: image)
                 
+                //TODO: Need to be jumping to main?
                 DispatchQueue.main.async {
                     strongSelf.combinedImage = currentCombinedImage
                 }
@@ -122,27 +158,34 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
             
             let newCombinedImage = strongSelf.combine(imageOne: currentCombinedImage, with: strongSelf.processByPixel(in: UIImage(cgImage: image))!)
             
+            //TODO: Need to be jumping to main?
             DispatchQueue.main.async {
                 strongSelf.progress = "Adding frame @ \(requestedTime.seconds) sec"
                 strongSelf.combinedImage = newCombinedImage
             }
             
             if let lastRequestedTime = sampleTimes.last, lastRequestedTime == NSValue(time: requestedTime) {
-                let newFile = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("MyImage.png")
-                
-                do {
-                    try strongSelf.combinedImage?.pngData()?.write(to: newFile!, options: [.atomic])
-                    completion?(newFile)
-                } catch {
-                    completion?(nil)
-                }
+                strongSelf.analysisState = .complete
             }
+        }
+    }
+    
+    func saveCombinedImageToFile(named: String) -> URL? {
+        guard let newFile = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("\(named).png") else {
+            return nil
+        }
+        
+        do {
+            try combinedImage?.pngData()?.write(to: newFile, options: [.atomic])
+            return newFile
+        } catch {
+            print("Failed to write combinedImage to file")
+            return nil
         }
     }
     
     func combine(imageOne: UIImage?, with imageTwo: UIImage) -> UIImage {
         
-        let startTime = CFAbsoluteTimeGetCurrent()
         let size = CGSize(width: imageTwo.size.width, height: imageTwo.size.height)
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         
@@ -151,14 +194,12 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
 
         let newCombinedImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
-        let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
-        print("Combining image took \(timeElapsed) s.")
         
         return newCombinedImage
     }
     
     func processByPixel(in image: UIImage) -> UIImage? {
-        let startTime = CFAbsoluteTimeGetCurrent()
+
         guard let inputCGImage = image.cgImage else {
             return nil
         }
@@ -203,45 +244,6 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
         let outputCGImage = context.makeImage()!
         let outputImage = UIImage(cgImage: outputCGImage, scale: image.scale, orientation: image.imageOrientation)
 
-        let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
-        print("Cleaning image took \(timeElapsed) s.")
-        
         return outputImage
-    }
-    
-    struct RGBA32: Equatable {
-        
-        static let transparent = RGBA32(red: 0, green: 0, blue: 0, alpha: 0)
-        static let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Little.rawValue
-
-        static func ==(lhs: RGBA32, rhs: RGBA32) -> Bool {
-            return lhs.color == rhs.color
-        }
-        
-        private var color: UInt32
-
-        var redComponent: UInt8 {
-            return UInt8((color >> 24) & 255)
-        }
-
-        var greenComponent: UInt8 {
-            return UInt8((color >> 16) & 255)
-        }
-
-        var blueComponent: UInt8 {
-            return UInt8((color >> 8) & 255)
-        }
-
-        var alphaComponent: UInt8 {
-            return UInt8((color >> 0) & 255)
-        }
-
-        init(red: UInt8, green: UInt8, blue: UInt8, alpha: UInt8) {
-            let red = UInt32(red)
-            let green = UInt32(green)
-            let blue = UInt32(blue)
-            let alpha = UInt32(alpha)
-            color = (red << 24) | (green << 16) | (blue << 8) | (alpha << 0)
-        }
     }
 }
