@@ -56,6 +56,15 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
     let url: URL
     var fileDetails: String? = "Unknown"
     var fileSizeInBytes: Int? = nil
+    var firstFrame: UIImage? {
+        let firstFrameTime = CMTimeMake(value: Int64(0), timescale: Int32(asset.duration.timescale))
+        do {
+            let firstFrame = try AVAssetImageGenerator(asset: asset).copyCGImage(at: firstFrameTime, actualTime: nil)
+            return UIImage(cgImage: firstFrame)
+        } catch {
+            return nil
+        }
+    }
     
     var analysisState: AnalysisState = .notStarted {
         didSet {
