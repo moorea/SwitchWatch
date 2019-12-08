@@ -14,26 +14,32 @@ struct VideoFramesOverlayGeneratorView: View {
     @State var videoURL: URL?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 5.0) {
-            
-            if self.videoURL == nil {
-                VideoPickerButton { videoURL in
-                    self.videoURL = videoURL
+        ScrollView {
+            VStack(alignment: .leading, spacing: 5.0) {
+                
+                if self.videoURL == nil {
+                    VideoPickerButton { videoURL in
+                        self.videoURL = videoURL
+                    }
+                    .padding([.top], 10)
+                } else {
+                    StackProgressView(processor: VideoFrameOverlayProcessor(videoFileURL: self.videoURL!))
+                        //.environmentObject(VideoFrameOverlayProcessor(videoFileURL: self.videoURL!))
                 }
-                .padding([.top], 10)
-            } else {
-                StackProgressView().environmentObject(VideoFrameOverlayProcessor(videoFileURL: self.videoURL!))
+                Spacer()
             }
-            Spacer()
         }
+        .onDisappear {
+            self.videoURL = nil
+        }
+        
         .padding()
         .navigationBarTitle("Frame Overlayer", displayMode: .inline)
-        
     }
 }
 
 struct StackProgressView: View {
-    @EnvironmentObject var processor: VideoFrameOverlayProcessor
+    @ObservedObject var processor: VideoFrameOverlayProcessor
     @State var generatedImageURL: URL?
     let activityViewController = SwiftUIFileShareActivityViewController()
 
@@ -79,11 +85,14 @@ struct StackProgressView: View {
             if self.processor.combinedImage != nil {
                 Text(self.processor.progress)
                 
-                Button(action: {
-                    self.processor.generator?.cancelAllCGImageGeneration()
-                }) {
-                    Text("Cancel")
+                if !self.processor.cancellingPendingGeneratedImages {
+                    Button(action: {
+                        self.processor.cancelVideoAnalysis()
+                    }) {
+                        Text("Cancel")
+                    }
                 }
+                
                 
                 Image(self.processor.combinedImage!.cgImage!, scale: CGFloat(2.0), label: Text("Stacked Image"))
                     .resizable()
@@ -121,7 +130,7 @@ struct StackProgressView: View {
             }
         }
         .onDisappear {
-            self.processor.generator?.cancelAllCGImageGeneration()
+            self.processor.cancelVideoAnalysis()
         }
     }
 }

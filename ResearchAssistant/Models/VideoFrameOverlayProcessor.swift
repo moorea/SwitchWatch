@@ -20,6 +20,7 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
     
     var id = UUID()
     var generator: AVAssetImageGenerator?
+    var cancellingPendingGeneratedImages: Bool = false
     
     let url: URL
     let asset: AVURLAsset
@@ -49,6 +50,12 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
         asset = AVURLAsset(url: url)
         videoTrack = asset.tracks(withMediaType: .video).first
     }
+    
+    func cancelVideoAnalysis() {
+        generator?.cancelAllCGImageGeneration()
+        cancellingPendingGeneratedImages = true
+    }
+    
     func analyzeVideo(completion: ((URL?)->Void)?) {
         analyzeVideo(requestedDurationToAnalyze: asset.duration.seconds, completion: completion)
     }
@@ -76,35 +83,46 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
             generator?.maximumSize = CGSize(width: naturalSize.width / 1.5, height: naturalSize.height / 1.5)
         }
         
-        generator?.generateCGImagesAsynchronously(forTimes: sampleTimes) { (requestedTime, image, time2, result, error) in
+        generator?.generateCGImagesAsynchronously(forTimes: sampleTimes) { [weak self] (requestedTime, image, time2, result, error) in
+            
+            print("got an image. result: \(result.rawValue)")
             guard result == AVAssetImageGenerator.Result.succeeded else {
                 return
             }
             guard error == nil, let image = image else {
                 return
             }
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
+            guard !strongSelf.cancellingPendingGeneratedImages else {
+                print("short circuit")
+                return
+            }
 
-            var currentCombinedImage = self.combinedImage
+            var currentCombinedImage = strongSelf.combinedImage
             if let firstRequestedTime = sampleTimes.first, firstRequestedTime == NSValue(time: requestedTime) {
                 currentCombinedImage = UIImage(cgImage: image)
                 
                 DispatchQueue.main.async {
-                    self.combinedImage = currentCombinedImage
+                    strongSelf.combinedImage = currentCombinedImage
                 }
             }
             
-            let newCombinedImage = self.combine(imageOne: currentCombinedImage, with: self.processByPixel(in: UIImage(cgImage: image))!)
+            let newCombinedImage = strongSelf.combine(imageOne: currentCombinedImage, with: strongSelf.processByPixel(in: UIImage(cgImage: image))!)
             
             DispatchQueue.main.async {
-                self.progress = "Adding frame @ \(requestedTime.seconds) sec"
-                self.combinedImage = newCombinedImage
+                strongSelf.progress = "Adding frame @ \(requestedTime.seconds) sec"
+                strongSelf.combinedImage = newCombinedImage
             }
             
             if let lastRequestedTime = sampleTimes.last, lastRequestedTime == NSValue(time: requestedTime) {
                 let newFile = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("MyImage.png")
                 
                 do {
-                    try self.combinedImage?.pngData()?.write(to: newFile!, options: [.atomic])
+                    try strongSelf.combinedImage?.pngData()?.write(to: newFile!, options: [.atomic])
                     completion?(newFile)
                 } catch {
                     completion?(nil)
@@ -218,4 +236,3 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
         }
     }
 }
-
