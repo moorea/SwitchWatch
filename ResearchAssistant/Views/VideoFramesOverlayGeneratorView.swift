@@ -28,6 +28,7 @@ struct VideoFramesOverlayGeneratorView: View {
         }
         .padding()
         .navigationBarTitle("Frame Overlayer", displayMode: .inline)
+        
     }
 }
 
@@ -51,17 +52,39 @@ struct StackProgressView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 5.0) {
-            HStack {
-                Text("File Details")
-                    .font(.title)
-                Spacer()
+            VStack (alignment: .leading) {
+                HStack (spacing: 0) {
+                    Image(systemName: "folder")
+                        .resizable()
+                        .frame(width: 20.0 , height: 15.0)
+                        .foregroundColor(.gray)
+                        .padding([.trailing], 8)
+                    Text("File Details")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                    Spacer()
+                }
+                .padding([.leading, .top], 16)
+                .padding([.bottom], 8)
+                
+                Text(self.processor.fileDetails)
+                    .font(.caption)
+                    .padding([.leading, .trailing], 16)
             }
-            .padding([.bottom], 10)
+            .background(Rectangle()
+                .foregroundColor(Color.tileBackground)
+                .cornerRadius(10.0))
             
-            Text(self.processor.fileDetails)
             
             if self.processor.combinedImage != nil {
                 Text(self.processor.progress)
+                
+                Button(action: {
+                    self.processor.generator?.cancelAllCGImageGeneration()
+                }) {
+                    Text("Cancel")
+                }
+                
                 Image(self.processor.combinedImage!.cgImage!, scale: CGFloat(2.0), label: Text("Stacked Image"))
                     .resizable()
                     .aspectRatio(CGFloat(self.processor.combinedImage!.size.width) / CGFloat(self.processor.combinedImage!.size.height), contentMode: .fit)
@@ -96,6 +119,9 @@ struct StackProgressView: View {
             if self.generatedImageURL != nil {
                 self.completeActions
             }
+        }
+        .onDisappear {
+            self.processor.generator?.cancelAllCGImageGeneration()
         }
     }
 }

@@ -19,6 +19,7 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
     @Published var progress: String
     
     var id = UUID()
+    var generator: AVAssetImageGenerator?
     
     let url: URL
     let asset: AVURLAsset
@@ -68,15 +69,17 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
             sampleTimes.append(NSValue(time: cmTime))
         }
         
-        let generator = AVAssetImageGenerator(asset: asset)
-        generator.requestedTimeToleranceAfter = .zero
-        generator.requestedTimeToleranceBefore = .zero
+        generator = AVAssetImageGenerator(asset: asset)
+        generator?.requestedTimeToleranceAfter = .zero
+        generator?.requestedTimeToleranceBefore = .zero
         if let naturalSize = videoTrack?.naturalSize {
-            generator.maximumSize = CGSize(width: naturalSize.width / 1.5, height: naturalSize.height / 1.5)
+            generator?.maximumSize = CGSize(width: naturalSize.width / 1.5, height: naturalSize.height / 1.5)
         }
         
-        generator.generateCGImagesAsynchronously(forTimes: sampleTimes) { (requestedTime, image, time2, result, error) in
-            
+        generator?.generateCGImagesAsynchronously(forTimes: sampleTimes) { (requestedTime, image, time2, result, error) in
+            guard result == AVAssetImageGenerator.Result.succeeded else {
+                return
+            }
             guard error == nil, let image = image else {
                 return
             }
