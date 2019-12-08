@@ -36,19 +36,28 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
         }
     }
     
-    var fileDetails: String {
-        "Name: \(url.absoluteURL.lastPathComponent)\n" +
-        "Size: \(String(format: "%.1f", (Double(fileSizeInBytes) / 1000000.0))) MB\n" +
-        "Frame Rate: \(Int((videoTrack?.nominalFrameRate ?? 0.0).rounded())) fps\n" +
-        "Duration: \(String(format: "%.1f", asset.duration.seconds)) sec\n" +
-        "Total frames: \(Int(asset.duration.seconds * Double(videoTrack?.nominalFrameRate ?? 0.0))) \n"
-    }
+    var fileDetails: String
     
     init(videoFileURL: URL) {
         progress = ""
         url = videoFileURL
         asset = AVURLAsset(url: url)
         videoTrack = asset.tracks(withMediaType: .video).first
+        
+        do {
+            let resources = try url.resourceValues(forKeys:[.fileSizeKey])
+            let fileSize = resources.fileSize!
+            
+            fileDetails = "Name: \(url.absoluteURL.lastPathComponent)\n" +
+                "Size: \(String(format: "%.1f", (Double(fileSize) / 1000000.0))) MB\n" +
+                "Frame Rate: \(Int((videoTrack?.nominalFrameRate ?? 0.0).rounded())) fps\n" +
+                "Duration: \(String(format: "%.1f", asset.duration.seconds)) sec\n" +
+                "Total frames: \(Int(asset.duration.seconds * Double(videoTrack?.nominalFrameRate ?? 0.0))) \n"
+            
+        } catch {
+            assertionFailure("Bad File")
+            fileDetails = "Error Loading File"
+        }
     }
     
     func cancelVideoAnalysis() {

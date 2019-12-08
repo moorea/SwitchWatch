@@ -12,6 +12,7 @@ import Combine
 struct VideoFramesOverlayGeneratorView: View {
     
     @State var videoURL: URL?
+    @State var processor: VideoFrameOverlayProcessor? = nil
 
     var body: some View {
         ScrollView {
@@ -20,17 +21,18 @@ struct VideoFramesOverlayGeneratorView: View {
                 if self.videoURL == nil {
                     VideoPickerButton { videoURL in
                         self.videoURL = videoURL
+                        self.processor = VideoFrameOverlayProcessor(videoFileURL: videoURL)
                     }
                     .padding([.top], 10)
                 } else {
-                    StackProgressView(processor: VideoFrameOverlayProcessor(videoFileURL: self.videoURL!))
-                        //.environmentObject(VideoFrameOverlayProcessor(videoFileURL: self.videoURL!))
+                    StackProgressView(processor: processor!)
                 }
                 Spacer()
             }
         }
         .onDisappear {
             self.videoURL = nil
+            self.processor?.cancelVideoAnalysis()
         }
         
         .padding()
@@ -93,10 +95,10 @@ struct StackProgressView: View {
                     }
                 }
                 
-                
                 Image(self.processor.combinedImage!.cgImage!, scale: CGFloat(2.0), label: Text("Stacked Image"))
                     .resizable()
                     .aspectRatio(CGFloat(self.processor.combinedImage!.size.width) / CGFloat(self.processor.combinedImage!.size.height), contentMode: .fit)
+                    
             } else {
                 Button(action: {
                     self.processor.analyzeVideo(requestedDurationToAnalyze: 300.0) { generatedImageURL in
@@ -128,9 +130,6 @@ struct StackProgressView: View {
             if self.generatedImageURL != nil {
                 self.completeActions
             }
-        }
-        .onDisappear {
-            self.processor.cancelVideoAnalysis()
         }
     }
 }
