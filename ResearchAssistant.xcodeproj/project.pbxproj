@@ -417,6 +417,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.moore.ResearchAssistant;
 				PRODUCT_NAME = "Research Assistant";
 				SUPPORTS_MACCATALYST = NO;
@@ -442,6 +443,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.moore.ResearchAssistant;
 				PRODUCT_NAME = "Research Assistant";
 				PROVISIONING_PROFILE_SPECIFIER = "Research Assistant AppStore Profile";
