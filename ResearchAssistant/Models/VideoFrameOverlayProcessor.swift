@@ -47,7 +47,7 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
     private let videoTrack: AVAssetTrack?
     
     @Published var combinedImage: UIImage?
-    @Published var progress: String
+    @Published var progress: Double
     
     var id = UUID()
     var generator: AVAssetImageGenerator?
@@ -69,7 +69,7 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
     }
     
     init(videoFileURL: URL) {
-        progress = ""
+        progress = 0.0
         url = videoFileURL
         asset = AVURLAsset(url: url)
         videoTrack = asset.tracks(withMediaType: .video).first
@@ -150,7 +150,6 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
             if let firstRequestedTime = sampleTimes.first, firstRequestedTime == NSValue(time: requestedTime) {
                 currentCombinedImage = UIImage(cgImage: image)
                 
-                //TODO: Need to be jumping to main?
                 DispatchQueue.main.async {
                     strongSelf.combinedImage = currentCombinedImage
                 }
@@ -158,14 +157,17 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
             
             let newCombinedImage = strongSelf.combine(imageOne: currentCombinedImage, with: strongSelf.processByPixel(in: UIImage(cgImage: image))!)
             
-            //TODO: Need to be jumping to main?
-            DispatchQueue.main.async {
-                strongSelf.progress = "Adding frame @ \(requestedTime.seconds) sec"
-                strongSelf.combinedImage = newCombinedImage
-            }
-            
             if let lastRequestedTime = sampleTimes.last, lastRequestedTime == NSValue(time: requestedTime) {
                 strongSelf.analysisState = .complete
+            }
+            
+            DispatchQueue.main.async {
+                guard let lastTime = sampleTimes.last as? CMTime else {
+                    return
+                }
+                // Note: this method of measuring progress assumes we always start at the beginning of the video
+                strongSelf.progress = requestedTime.seconds / lastTime.seconds
+                strongSelf.combinedImage = newCombinedImage
             }
         }
     }

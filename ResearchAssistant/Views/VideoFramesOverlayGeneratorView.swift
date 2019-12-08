@@ -109,12 +109,15 @@ struct StackProgressView: View {
             fileDetailsCard
             
             if self.processor.combinedImage != nil {
-                Text(self.processor.progress)
+                if !self.processor.analysisState.hasStoppedRunning {
+                    ProgressBar(value: self.$processor.progress, maxValue: 1.0)
+                        .frame(height: 10.0)
+                }
                 
                 Image(self.processor.combinedImage!.cgImage!, scale: CGFloat(2.0), label: Text("Stacked Image"))
                     .resizable()
                     .aspectRatio(CGFloat(self.processor.combinedImage!.size.width) / CGFloat(self.processor.combinedImage!.size.height), contentMode: .fit)
-                    
+                
                 if !self.processor.analysisState.hasStoppedRunning {
                     Button(action: {
                         self.processor.analysisState = .cancelled
