@@ -11,48 +11,104 @@ import AVFoundation
 import Combine
 import UIKit
 
-class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
+enum AnalysisState: CustomStringConvertible {
+    case notStarted
+    case inProgress
+    case cancelled
+    case complete
     
-    private let defaultFrameSampleSize = 1500
-    
-    @Published var combinedImage: UIImage?
-    @Published var progress: String
-    
-    var id = UUID()
-    
-    let url: URL
-    let asset: AVURLAsset
-    let videoTrack: AVAssetTrack?
-    
-    var fileSizeInBytes: Int {
-        do {
-            let resources = try url.resourceValues(forKeys:[.fileSizeKey])
-            let fileSize = resources.fileSize!
-            return fileSize
-        } catch {
-            return 0
+    var hasStoppedRunning: Bool {
+        switch self {
+        case .notStarted, .inProgress:
+            return false
+        case .cancelled, .complete:
+            return true
         }
     }
     
-    var fileDetails: String {
-        "Name: \(url.absoluteURL.lastPathComponent)\n" +
-        "Size: \(String(format: "%.1f", (Double(fileSizeInBytes) / 1000000.0))) MB\n" +
-        "Frame Rate: \(Int((videoTrack?.nominalFrameRate ?? 0.0).rounded())) fps\n" +
-        "Duration: \(String(format: "%.1f", asset.duration.seconds)) sec\n" +
-        "Total frames: \(Int(asset.duration.seconds * Double(videoTrack?.nominalFrameRate ?? 0.0))) \n"
+    var description: String {
+        switch self {
+        case .notStarted:
+            return "Not Started"
+        case .inProgress:
+            return "In-progress"
+        case .cancelled:
+            return "Cancelled"
+        case .complete:
+            return "Complete"
+        }
+    }
+}
+
+class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
+    
+    private let defaultFrameSampleSize = 1500
+    private let asset: AVURLAsset
+    private let videoTrack: AVAssetTrack?
+    
+    @Published var combinedImage: UIImage?
+    @Published var progress: Double
+    
+    var id = UUID()
+    var generator: AVAssetImageGenerator?
+    
+    // TODO: Make this private?
+    let url: URL
+    var fileDetails: String? = "Unknown"
+    var fileSizeInBytes: Int? = nil
+    var firstFrame: UIImage? {
+        let firstFrameTime = CMTimeMake(value: Int64(0), timescale: Int32(asset.duration.timescale))
+        do {
+            let firstFrame = try AVAssetImageGenerator(asset: asset).copyCGImage(at: firstFrameTime, actualTime: nil)
+            return UIImage(cgImage: firstFrame)
+        } catch {
+            return nil
+        }
+    }
+    
+    var analysisState: AnalysisState = .notStarted {
+        didSet {
+            switch analysisState {
+            case .cancelled:
+                generator?.cancelAllCGImageGeneration()
+            default:
+                print("analysisState changed to \(analysisState.description)")
+            }
+        }
     }
     
     init(videoFileURL: URL) {
-        progress = ""
+        progress = 0.0
         url = videoFileURL
         asset = AVURLAsset(url: url)
         videoTrack = asset.tracks(withMediaType: .video).first
-    }
-    func analyzeVideo(completion: ((URL?)->Void)?) {
-        analyzeVideo(requestedDurationToAnalyze: asset.duration.seconds, completion: completion)
+        extractFileMetadata()
     }
     
-    func analyzeVideo(requestedDurationToAnalyze: Double, completion: ((URL?)->Void)?) {
+    private func extractFileMetadata() {
+        do {
+            let resources = try url.resourceValues(forKeys:[.fileSizeKey])
+            fileSizeInBytes = resources.fileSize
+
+            guard let fileSizeInBytes = fileSizeInBytes else {
+                return
+            }
+            fileDetails = "Name: \(url.absoluteURL.lastPathComponent)\n" +
+                "Size: \(String(format: "%.1f", (Double(fileSizeInBytes) / 1000000.0))) MB\n" +
+                "Frame Rate: \(Int((videoTrack?.nominalFrameRate ?? 0.0).rounded())) fps\n" +
+                "Duration: \(String(format: "%.1f", asset.duration.seconds)) sec\n" +
+                "Total frames: \(Int(asset.duration.seconds * Double(videoTrack?.nominalFrameRate ?? 0.0))) \n"
+        } catch {
+            fileDetails = "Error Loading File"
+        }
+    }
+    
+    func analyzeVideo() {
+        analyzeVideo(requestedDurationToAnalyze: asset.duration.seconds)
+    }
+    
+    func analyzeVideo(requestedDurationToAnalyze: Double) {
+        analysisState = .inProgress
         
         let totalFrames = Int(asset.duration.seconds * Double(videoTrack?.nominalFrameRate ?? 0.0))
         let sampleSize = defaultFrameSampleSize > totalFrames ? totalFrames : defaultFrameSampleSize
@@ -68,41 +124,74 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
             sampleTimes.append(NSValue(time: cmTime))
         }
         
-        let generator = AVAssetImageGenerator(asset: asset)
-        generator.requestedTimeToleranceAfter = .zero
-        generator.requestedTimeToleranceBefore = .zero
-        generator.generateCGImagesAsynchronously(forTimes: sampleTimes) { (requestedTime, image, time2, result, error) in
+        generator = AVAssetImageGenerator(asset: asset)
+        generator?.requestedTimeToleranceAfter = .zero
+        generator?.requestedTimeToleranceBefore = .zero
+        if let naturalSize = videoTrack?.naturalSize {
+            generator?.maximumSize = CGSize(width: naturalSize.width / 1.5, height: naturalSize.height / 1.5)
+        }
+        
+        generator?.generateCGImagesAsynchronously(forTimes: sampleTimes) { [weak self] (requestedTime, image, actualTime, result, error) in
+            
+            print("Received image from actualTime: \(actualTime). Result: \(result.rawValue)")
+            
+            guard result == AVAssetImageGenerator.Result.succeeded else {
+                print("Analysis has been cancelled or errored. Skipping frame analysis.")
+                return
+            }
             
             guard error == nil, let image = image else {
+                print("Received an error or missing image. Skipping frame analysis.")
+                return
+            }
+            
+            guard let strongSelf = self else {
+                print("Referenece to self has been lost. Skipping frame analysis.")
+                return
+            }
+            
+            guard strongSelf.analysisState != .cancelled else {
+                print("Analysis has been cancelled. Skipping frame analysis.")
                 return
             }
 
-            var currentCombinedImage = self.combinedImage
+            var currentCombinedImage = strongSelf.combinedImage
             if let firstRequestedTime = sampleTimes.first, firstRequestedTime == NSValue(time: requestedTime) {
                 currentCombinedImage = UIImage(cgImage: image)
                 
                 DispatchQueue.main.async {
-                    self.combinedImage = currentCombinedImage
+                    strongSelf.combinedImage = currentCombinedImage
                 }
             }
             
-            let newCombinedImage = self.combine(imageOne: currentCombinedImage, with: self.processByPixel(in: UIImage(cgImage: image))!)
-            
-            DispatchQueue.main.async {
-                self.progress = "Adding frame @ \(requestedTime.seconds) sec"
-                self.combinedImage = newCombinedImage
-            }
+            let newCombinedImage = strongSelf.combine(imageOne: currentCombinedImage, with: strongSelf.processByPixel(in: UIImage(cgImage: image))!)
             
             if let lastRequestedTime = sampleTimes.last, lastRequestedTime == NSValue(time: requestedTime) {
-                let newFile = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("MyImage.png")
-                
-                do {
-                    try self.combinedImage?.pngData()?.write(to: newFile!, options: [.atomic])
-                    completion?(newFile)
-                } catch {
-                    completion?(nil)
-                }
+                strongSelf.analysisState = .complete
             }
+            
+            DispatchQueue.main.async {
+                guard let lastTime = sampleTimes.last as? CMTime else {
+                    return
+                }
+                // Note: this method of measuring progress assumes we always start at the beginning of the video
+                strongSelf.progress = requestedTime.seconds / lastTime.seconds
+                strongSelf.combinedImage = newCombinedImage
+            }
+        }
+    }
+    
+    func saveCombinedImageToFile(named: String) -> URL? {
+        guard let newFile = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("\(named).png") else {
+            return nil
+        }
+        
+        do {
+            try combinedImage?.pngData()?.write(to: newFile, options: [.atomic])
+            return newFile
+        } catch {
+            print("Failed to write combinedImage to file")
+            return nil
         }
     }
     
@@ -122,16 +211,27 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
     
     func processByPixel(in image: UIImage) -> UIImage? {
 
-        guard let inputCGImage = image.cgImage else { return nil }
-        let colorSpace       = CGColorSpaceCreateDeviceRGB()
-        let width            = inputCGImage.width
-        let height           = inputCGImage.height
-        let bytesPerPixel    = 4
+        guard let inputCGImage = image.cgImage else {
+            return nil
+        }
+        
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let width = inputCGImage.width
+        let height = inputCGImage.height
+        let bytesPerPixel = 4
         let bitsPerComponent = 8
-        let bytesPerRow      = bytesPerPixel * width
-        let bitmapInfo       = RGBA32.bitmapInfo
+        let bytesPerRow = bytesPerPixel * width
+        let bitmapInfo = RGBA32.bitmapInfo
 
-        guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
+        guard let context =
+            CGContext(
+                data: nil,
+                width: width,
+                height: height,
+                bitsPerComponent: bitsPerComponent,
+                bytesPerRow: bytesPerRow,
+                space: colorSpace,
+                bitmapInfo: bitmapInfo) else {
             return nil
         }
         context.draw(inputCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
@@ -143,16 +243,10 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
         for row in 0 ..< Int(height) {
             for column in 0 ..< Int(width) {
                 let offset = row * width + column
-
-               /*
-                 * Here I'm looking for color : RGBA32(red: 231, green: 239, blue: 247, alpha: 255)
-                 * and I will convert pixels color that in range of above color to transparent
-                 * so comparetion can done like this (pixelColorRedComp >= ourColorRedComp - 1 && pixelColorRedComp <= ourColorRedComp + 1 && green && blue)
-                 */
-
+                
                 if pixelBuffer[offset].redComponent >  50 ||
                     pixelBuffer[offset].greenComponent >  50 ||
-                    pixelBuffer[offset].blueComponent > 50  {
+                    pixelBuffer[offset].blueComponent > 50 {
                     pixelBuffer[offset] = .transparent
                 }
             }
@@ -163,49 +257,4 @@ class VideoFrameOverlayProcessor: ObservableObject, Identifiable {
 
         return outputImage
     }
-    
-    struct RGBA32: Equatable {
-        private var color: UInt32
-
-        var redComponent: UInt8 {
-            return UInt8((color >> 24) & 255)
-        }
-
-        var greenComponent: UInt8 {
-            return UInt8((color >> 16) & 255)
-        }
-
-        var blueComponent: UInt8 {
-            return UInt8((color >> 8) & 255)
-        }
-
-        var alphaComponent: UInt8 {
-            return UInt8((color >> 0) & 255)
-        }
-
-        init(red: UInt8, green: UInt8, blue: UInt8, alpha: UInt8) {
-            let red   = UInt32(red)
-            let green = UInt32(green)
-            let blue  = UInt32(blue)
-            let alpha = UInt32(alpha)
-            color = (red << 24) | (green << 16) | (blue << 8) | (alpha << 0)
-        }
-
-        static let red     = RGBA32(red: 255, green: 0,   blue: 0,   alpha: 255)
-        static let green   = RGBA32(red: 0,   green: 255, blue: 0,   alpha: 255)
-        static let blue    = RGBA32(red: 0,   green: 0,   blue: 255, alpha: 255)
-        static let white   = RGBA32(red: 255, green: 255, blue: 255, alpha: 255)
-        static let black   = RGBA32(red: 0,   green: 0,   blue: 0,   alpha: 255)
-        static let magenta = RGBA32(red: 255, green: 0,   blue: 255, alpha: 255)
-        static let yellow  = RGBA32(red: 255, green: 255, blue: 0,   alpha: 255)
-        static let cyan    = RGBA32(red: 0,   green: 255, blue: 255, alpha: 255)
-        static let transparent = RGBA32(red: 0,   green: 0, blue: 0, alpha: 0)
-
-        static let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Little.rawValue
-
-        static func ==(lhs: RGBA32, rhs: RGBA32) -> Bool {
-            return lhs.color == rhs.color
-        }
-    }
 }
-

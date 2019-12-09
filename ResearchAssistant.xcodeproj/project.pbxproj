@@ -28,6 +28,8 @@
 		4A755B8923319DEB002DB6AA /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755B8823319DEA002DB6AA /* Int+Extensions.swift */; };
 		4A755B8B23319E04002DB6AA /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755B8A23319E04002DB6AA /* String+Extensions.swift */; };
 		4A755B8D23319E33002DB6AA /* AVPlayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A755B8C23319E33002DB6AA /* AVPlayer+Extensions.swift */; };
+		4AAB0A3F239D92F6007C61E8 /* RBGA32.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB0A3E239D92F6007C61E8 /* RBGA32.swift */; };
+		4AAB0A41239D9E10007C61E8 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB0A40239D9E10007C61E8 /* ProgressBar.swift */; };
 		55BB4A52232C4022008DDDEE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB4A51232C4022008DDDEE /* HomeView.swift */; };
 		55BB4A54232C474F008DDDEE /* VideoFramesOverlayGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB4A53232C474F008DDDEE /* VideoFramesOverlayGeneratorView.swift */; };
 		55BB4A56232C5681008DDDEE /* DocumentPickerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB4A55232C5681008DDDEE /* DocumentPickerButton.swift */; };
@@ -60,6 +62,8 @@
 		4A755B8823319DEA002DB6AA /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		4A755B8A23319E04002DB6AA /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		4A755B8C23319E33002DB6AA /* AVPlayer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Extensions.swift"; sourceTree = "<group>"; };
+		4AAB0A3E239D92F6007C61E8 /* RBGA32.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RBGA32.swift; sourceTree = "<group>"; };
+		4AAB0A40239D9E10007C61E8 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		55BB4A51232C4022008DDDEE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		55BB4A53232C474F008DDDEE /* VideoFramesOverlayGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFramesOverlayGeneratorView.swift; sourceTree = "<group>"; };
 		55BB4A55232C5681008DDDEE /* DocumentPickerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerButton.swift; sourceTree = "<group>"; };
@@ -154,6 +158,7 @@
 				55BB4A5B232D987E008DDDEE /* DistanceDrawerView.swift */,
 				4A755B7D23319CA0002DB6AA /* VideoPlayerView.swift */,
 				4A755B7F23319CC4002DB6AA /* UIVideoPlayerView.swift */,
+				4AAB0A40239D9E10007C61E8 /* ProgressBar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -165,6 +170,7 @@
 				4A516B3B22FF2C3300F09F3F /* ObservedItem.swift */,
 				55BB4A59232C74A4008DDDEE /* VideoFrameOverlayProcessor.swift */,
 				4A4010C123785CBA00F54650 /* Drawing.swift */,
+				4AAB0A3E239D92F6007C61E8 /* RBGA32.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -256,12 +262,14 @@
 				55BB4A5A232C74A4008DDDEE /* VideoFrameOverlayProcessor.swift in Sources */,
 				4A755B8023319CC4002DB6AA /* UIVideoPlayerView.swift in Sources */,
 				4A516B3822FF2BD600F09F3F /* ObservationSession.swift in Sources */,
+				4AAB0A3F239D92F6007C61E8 /* RBGA32.swift in Sources */,
 				4A4D3BFB22FE429B00E7DC64 /* SceneDelegate.swift in Sources */,
 				55BB4A5C232D987E008DDDEE /* DistanceDrawerView.swift in Sources */,
 				4A516B3422FF296600F09F3F /* Color.swift in Sources */,
 				4A4010C223785CBA00F54650 /* Drawing.swift in Sources */,
 				4A516B3E22FF2C7200F09F3F /* ObservedItemCard.swift in Sources */,
 				4A4D3BFD22FE429B00E7DC64 /* ObservationSessionView.swift in Sources */,
+				4AAB0A41239D9E10007C61E8 /* ProgressBar.swift in Sources */,
 				4A755B7E23319CA0002DB6AA /* VideoPlayerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -409,6 +417,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.moore.ResearchAssistant;
 				PRODUCT_NAME = "Research Assistant";
 				SUPPORTS_MACCATALYST = NO;
@@ -434,6 +443,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.moore.ResearchAssistant;
 				PRODUCT_NAME = "Research Assistant";
 				PROVISIONING_PROFILE_SPECIFIER = "Research Assistant AppStore Profile";
